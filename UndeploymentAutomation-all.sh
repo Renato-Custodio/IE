@@ -29,9 +29,9 @@ terraform destroy -auto-approve
 cd ..
 
 # #Terraform - Camunda
-cd Camunda-Terraform
-terraform destroy -auto-approve
-cd ..
+# cd Camunda-Terraform
+# terraform destroy -auto-approve
+# cd ..
 
 # # #Terraform - Kafka
 cd Kafka
@@ -39,11 +39,11 @@ terraform destroy -auto-approve
 cd ..
 
 # # #Terraform - Kong
-cd KongTerraform
-terraform destroy -auto-approve
-cd ..
+# cd KongTerraform
+# terraform destroy -auto-approve
+# cd ..
 
 # # #Terraform - Konga
-cd KongaTerraform
-terraform destroy -auto-approve
-cd ..
+# cd KongaTerraform
+# terraform destroy -auto-approve
+# cd ..
