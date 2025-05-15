@@ -43,6 +43,8 @@ public class KafkaProvisioningResource {
         client.query("DROP TABLE IF EXISTS Purchases").execute()
         .flatMap(r -> client.query("CREATE TABLE Purchases (id SERIAL PRIMARY KEY,DateTime DATETIME, Price FLOAT, Product TEXT NOT NULL, Supplier TEXT NOT NULL, shopname TEXT NOT NULL, loyaltycardid BIGINT UNSIGNED)").execute())
         .flatMap(r -> client.query("INSERT INTO Purchases (DateTime,Price,Product,Supplier,shopname,loyaltycardid) VALUES ('2038-01-19 03:14:07','12.34','one product','supplier','arco cego',1)").execute())
+        .flatMap(r -> client.query("INSERT INTO Purchases (DateTime,Price,Product,Supplier,shopname,loyaltycardid) VALUES ('2038-01-19 03:14:07','12.34','one product','supplier','arco cego',2)").execute())
+        .flatMap(r -> client.query("INSERT INTO Purchases (DateTime,Price,Product,Supplier,shopname,loyaltycardid) VALUES ('2038-01-19 03:14:07','12.34','one product','supplier','arco cego',2)").execute())
         .await().indefinitely();
     }
 
