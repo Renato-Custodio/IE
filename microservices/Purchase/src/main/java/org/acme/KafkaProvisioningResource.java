@@ -60,6 +60,12 @@ public class KafkaProvisioningResource {
     }
 
     @GET
+    @Path("{loyaltyCardId}")
+    public Multi<Purchase> getByLoyaltyCardId(Long loyaltyCardId) {
+        return Purchase.findByLoyaltyCardId(client, loyaltyCardId);
+    }
+
+    @GET
     @Path("{id}")
     public Uni<Response> getSingle(Long id) {
         return Purchase.findById(client, id)

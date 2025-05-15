@@ -7,34 +7,48 @@ import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 
+import java.util.List;
+
 public class CrossSellingRecommendation
 {
     public Long id;
+    public Long loyaltyCardId;
+    public List<Long> shopIds;
 
-    public String name;
 
-    public CrossSellingRecommendation(Long id, String name) {
+    public CrossSellingRecommendation(
+        final Long id,
+        final Long loyaltyCardId,
+        final List<Long> shopIds)
+    {
         this.id = id;
-        this.name = name;
+        this.loyaltyCardId = loyaltyCardId;
+        this.shopIds = shopIds;
     }
     
     public CrossSellingRecommendation() {
     }
 
-    @Override
-    public String toString() {
-        return "{id=" + id +
-                ",name:" + name +"}";
+    public Long getId() {
+        return id;
+    }
+
+    public Long getLoyaltyCardId() {
+        return loyaltyCardId;
+    }
+
+    public List<Long> getShopIds() {
+        return shopIds;
     }
     
     public static Multi<CrossSellingRecommendation> findAll(MySQLPool client) {
-        return client.query("SELECT id, name FROM CrossSellingRecommendations ORDER BY id ASC").execute()
+        return client.query("SELECT id, loyaltyCardId, shopIds FROM CrossSellingRecommendations ORDER BY id ASC").execute()
                 .onItem().transformToMulti(set -> Multi.createFrom().iterable(set))
                 .onItem().transform(CrossSellingRecommendation::from);
     }
     
     public static Uni<CrossSellingRecommendation> findById(MySQLPool client, Long id) {
-        return client.preparedQuery("SELECT id, name FROM CrossSellingRecommendations WHERE id = ?").execute(Tuple.of(id))
+        return client.preparedQuery("SELECT id, loyaltyCardId, shopIds FROM CrossSellingRecommendations WHERE id = ?").execute(Tuple.of(id))
                 .onItem().transform(RowSet::iterator) 
                 .onItem().transform(iterator -> iterator.hasNext() ? from(iterator.next()) : null); 
     }
@@ -42,6 +56,16 @@ public class CrossSellingRecommendation
     private static CrossSellingRecommendation from(Row row) {
         return new CrossSellingRecommendation(
             row.getLong("id"),
-            row.getString("name"));
+            row.getLong("loyaltyCardId"),
+            List.of(row.getArrayOfLongs("shopIds")));
+    }
+
+    @Override
+    public String toString() {
+        return "CrossSellingRecommendation{" +
+            "id=" + id +
+            ", loyaltyCardId=" + loyaltyCardId +
+            ", shopIds=" + shopIds +
+            '}';
     }
 }

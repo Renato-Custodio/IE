@@ -1,11 +1,14 @@
 package org.acme.model;
 
+import java.util.List;
+
 public class Message {
 
     private String asText;
     private String seqKey;
-
-    private String name;
+    private Long id;
+    private Long loyaltyCardId;
+    private List<Long> shopIds;
 
     public Message() {}
 
@@ -13,24 +16,39 @@ public class Message {
         return asText;
     }
 
-    public String getSeqkey() {
-        return seqKey;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-
     public void setAsText(String asText) {
         this.asText = asText;
     }
 
-    public void setSeqkey(String seqKey) {
+    public String getSeqKey() {
+        return seqKey;
+    }
+
+    public void setSeqKey(String seqKey) {
         this.seqKey = seqKey;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getLoyaltyCardId() {
+        return loyaltyCardId;
+    }
+
+    public void setLoyaltyCardId(Long loyaltyCardId) {
+        this.loyaltyCardId = loyaltyCardId;
+    }
+
+    public List<Long> getShopIds() {
+        return shopIds;
+    }
+
+    public void setShopIds(List<Long> shopIds) {
+        this.shopIds = shopIds;
     }
 }

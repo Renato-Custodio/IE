@@ -35,15 +35,15 @@ public class CrossSellingRecommendationResource {
     private void initdb() {
         // In a production environment this configuration SHOULD NOT be used
         client.query("DROP TABLE IF EXISTS CrossSellingRecommendations").execute()
-        .flatMap(r -> client.query("CREATE TABLE CrossSellingRecommendations (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute())
-        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (name) VALUES ('Name')").execute())
+        .flatMap(r -> client.query("CREATE TABLE CrossSellingRecommendations (id SERIAL PRIMARY KEY, loyalty_card_id BIGINT UNSIGNED, shop_ids TEXT NOT NULL)").execute())
+        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (loyalty_card_id,shop_ids) VALUES (1, '[1,2,3]')").execute())
+        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (loyalty_card_id,shop_ids) VALUES (2, '[4,5,6]')").execute())
         .await().indefinitely();
     }
 
     @POST
-    //TODO parameter
-    public String ProvisioningProducer() {
-        Thread worker = new StaticTopicProducer(kafkaServers , client);
+    public String ProvisioningProducer(CrossSellingRecommendation recommendation) {
+        Thread worker = new StaticTopicProducer(kafkaServers , client, recommendation);
         worker.start();
         return "New worker started";
     }
