@@ -123,6 +123,32 @@ terraform taint aws_instance.exampleDeployQuarkus
 terraform apply -auto-approve
 cd ../..
 
+# # #Terraform - Quarkus Micro services changing the configuration of the DB connection, recompiling and packaging
+cd microservices/CrossSellingRecommendation/src/main/resources
+sed -i "/quarkus.datasource.reactive.url/d" application.properties
+sed -i "/quarkus.container-image.group/d" application.properties
+sed -i "/kafka.bootstrap.servers/d" application.properties
+echo "quarkus.container-image.group=$DockerUsername" >> application.properties
+echo "quarkus.datasource.reactive.url=mysql://$addressDB:3306/quarkus_test_all_operations" >> application.properties
+echo "kafka.bootstrap.servers=$addresskafka:9092" >> application.properties
+cd ../../..
+DockerImage="$(grep -m 1 "<artifactId>" pom.xml|sed "s/<artifactId>//g"|sed "s/<\/artifactId>//g" |sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g")"
+DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/<\/version>//g" |sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g")"
+./mvnw clean package
+cd ../..
+
+cd Quarkus-Terraform/CrossSellingRecommendation
+sed -i "/sudo docker login/d" quarkus.sh
+sed -i "/sudo docker pull/d" quarkus.sh
+sed -i "/sudo docker run/d" quarkus.sh
+echo "sudo docker login -u \"$DockerUsername\" -p \"$DockerPassword\"" >> quarkus.sh
+echo "sudo docker pull $DockerUsername/$DockerImage:$DockerImageVersion" >> quarkus.sh
+echo "sudo docker run -d --name $DockerImage -p 8080:8080 $DockerUsername/$DockerImage:$DockerImageVersion" >> quarkus.sh
+terraform init
+terraform taint aws_instance.exampleDeployQuarkus
+terraform apply -auto-approve
+cd ../..
+
 
 # #Terraform 1 - Kong
 #cd KongTerraform
