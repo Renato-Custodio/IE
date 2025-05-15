@@ -22,6 +22,9 @@ public class DiscountCouponResource {
         @ConfigProperty(name = "myapp.schema.create", defaultValue = "true")
         boolean schemaCreate;
 
+        @ConfigProperty(name = "kafka.bootstrap.servers")
+        String kafkaServers;
+
         void config(@Observes StartupEvent ev) {
                 if (schemaCreate) {
                         initdb();
@@ -49,6 +52,13 @@ public class DiscountCouponResource {
                                 .await().indefinitely();
         }
 
+        @POST
+        public String ProvisioningProducer(DiscountCoupon discountCoupon) {
+                Thread worker = new StaticTopicProducer(kafkaServers, client, discountCoupon);
+                worker.start();
+                return "New worker started";
+        }
+
         @GET
         public Multi<DiscountCoupon> get() {
                 return DiscountCoupon.findAll(client);
@@ -74,7 +84,7 @@ public class DiscountCouponResource {
                                 .onItem().transform(ResponseBuilder::build);
         }
 
-        @POST
+        /* @POST
         public Uni<Response> create(DiscountCoupon discountCoupon) {
                 return discountCoupon
                                 .save(client, discountCoupon.idLoyaltyCard, discountCoupon.idShop,
@@ -82,7 +92,7 @@ public class DiscountCouponResource {
                                                 discountCoupon.timestamp)
                                 .onItem().transform(id -> URI.create("/discountCoupon/" + id))
                                 .onItem().transform(uri -> Response.created(uri).build());
-        }
+        } */
 
         @DELETE
         @Path("{id}")
