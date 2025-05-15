@@ -23,6 +23,8 @@ public class DiscountCoupon {
 		this.id = id;
 		this.idLoyaltyCard = idLoyaltyCard;
 		this.idShop = idShop;
+		this.discount = discount;
+		this.timestamp = timestamp;
 	}
 
 	@Override
