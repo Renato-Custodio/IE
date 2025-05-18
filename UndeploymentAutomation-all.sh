@@ -4,7 +4,7 @@
 source ./access.sh
 
 # #Terraform - Quarkus purchase
-cd Quarkus-Terraform/Purchase
+cd Quarkus-Terraform/purchase
 terraform destroy -auto-approve
 cd ../..
 
@@ -19,7 +19,7 @@ terraform destroy -auto-approve
 cd ../..
 
 # #Terraform - Quarkus loyaltycard
-cd Quarkus-Terraform/loyaltycard
+cd Quarkus-Terraform/loyalty-card
 terraform destroy -auto-approve
 cd ../..
 

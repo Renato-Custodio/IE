@@ -4,6 +4,7 @@ import java.net.URI;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import org.acme.api.ApiCustomerRequest;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Multi;
@@ -11,6 +12,7 @@ import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.MediaType;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 @Path("Customer")
 public class CustomerResource {
@@ -31,11 +33,11 @@ public class CustomerResource {
     private void initdb() {
         // In a production environment this configuration SHOULD NOT be used
         client.query("DROP TABLE IF EXISTS Customers").execute()
-        .flatMap(r -> client.query("CREATE TABLE Customers (id SERIAL PRIMARY KEY, name TEXT NOT NULL, FiscalNumber BIGINT UNSIGNED, location TEXT NOT NULL)").execute())
-        .flatMap(r -> client.query("INSERT INTO Customers (name,FiscalNumber,location) VALUES ('client1','123456','Lisbon')").execute())
-        .flatMap(r -> client.query("INSERT INTO Customers (name,FiscalNumber,location) VALUES ('client2','987654','Setúbal')").execute())
-        .flatMap(r -> client.query("INSERT INTO Customers (name,FiscalNumber,location) VALUES ('client3','123987','OPorto')").execute())
-        .flatMap(r -> client.query("INSERT INTO Customers (name,FiscalNumber,location) VALUES ('client4','987123','Faro')").execute())
+        .flatMap(r -> client.query("CREATE TABLE Customers (id SERIAL PRIMARY KEY, name TEXT NOT NULL, fiscal_number BIGINT UNSIGNED, location TEXT NOT NULL)").execute())
+        .flatMap(r -> client.query("INSERT INTO Customers (name,fiscal_number,location) VALUES ('client1','123456','Lisbon')").execute())
+        .flatMap(r -> client.query("INSERT INTO Customers (name,fiscal_number,location) VALUES ('client2','987654','Setúbal')").execute())
+        .flatMap(r -> client.query("INSERT INTO Customers (name,fiscal_number,location) VALUES ('client3','123987','OPorto')").execute())
+        .flatMap(r -> client.query("INSERT INTO Customers (name,fiscal_number,location) VALUES ('client4','987123','Faro')").execute())
         .await().indefinitely();
     }
     
@@ -53,10 +55,14 @@ public class CustomerResource {
     }
      
     @POST
-    public Uni<Response> create(Customer customer) {
-        return customer.save(client , customer.name , customer.FiscalNumber , customer.location)
-                .onItem().transform(id -> URI.create("/customer/" + id))
-                .onItem().transform(uri -> Response.created(uri).build());
+    public Uni<Response> create(@RequestBody ApiCustomerRequest request) {
+        return Customer.save(
+            client,
+            request.name(),
+            request.fiscalNumber(),
+            request.location())
+        .onItem().transform(id -> URI.create("/customer/" + id))
+        .onItem().transform(uri -> Response.created(uri).build());
     }
     
     @DELETE
@@ -68,11 +74,15 @@ public class CustomerResource {
     }
 
     @PUT
-    @Path("/{id}/{name}/{FiscalNumber}/{location}")
-    public Uni<Response> update(Long id , String name , Long FiscalNumber , String location) {
-        return Customer.update(client, id , name , FiscalNumber , location)
-                .onItem().transform(updated -> updated ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND)
-                .onItem().transform(status -> Response.status(status).build());
+    @Path("{id}")
+    public Uni<Response> update(Long id, @RequestBody ApiCustomerRequest request) {
+        return Customer.update(
+            client,
+            id,
+            request.name(),
+            request.fiscalNumber(),
+            request.location())
+        .onItem().transform(updated -> updated ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND)
+        .onItem().transform(status -> Response.status(status).build());
     }
-    
 }

@@ -4,6 +4,7 @@ import java.net.URI;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import org.acme.api.ApiShopRequest;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Multi;
@@ -11,6 +12,7 @@ import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.MediaType;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 @Path("Shop")
 public class ShopResource {
@@ -53,10 +55,13 @@ public class ShopResource {
     }
      
     @POST
-    public Uni<Response> create(Shop shop) {
-        return shop.save(client , shop.name , shop.location)
-                .onItem().transform(id -> URI.create("/shop/" + id))
-                .onItem().transform(uri -> Response.created(uri).build());
+    public Uni<Response> create(@RequestBody ApiShopRequest request) {
+        return Shop.save(
+            client,
+            request.name(),
+            request.location())
+        .onItem().transform(id -> URI.create("/shop/" + id))
+        .onItem().transform(uri -> Response.created(uri).build());
     }
     
     @DELETE
@@ -68,11 +73,15 @@ public class ShopResource {
     }
 
     @PUT
-    @Path("/{id}/{name}/{location}")
-    public Uni<Response> update(Long id , String name , String location) {
-        return Shop.update(client, id , name , location)
-                .onItem().transform(updated -> updated ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND)
-                .onItem().transform(status -> Response.status(status).build());
+    @Path("{id}")
+    public Uni<Response> update(Long id , @RequestBody ApiShopRequest request) {
+        return Shop.update(
+            client,
+            id,
+            request.name(),
+            request.location())
+        .onItem().transform(updated -> updated ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND)
+        .onItem().transform(status -> Response.status(status).build());
     }
     
 }
