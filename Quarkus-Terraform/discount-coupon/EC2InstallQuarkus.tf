@@ -14,12 +14,12 @@ provider "aws" {
 }
 
 resource "aws_instance" "exampleDeployQuarkus" {
-  ami = "ami-0e7290665643979b5" # Amazon Linux ARM AMI built by Amazon Web Services - FOR DOCKER image COMPATIBILITY
-  #alternative ami for Amazon Linux x86 built by Amazon Web Services  
-  #  ami                     = "ami-0d7a109bf30624c99"
-  instance_type = "c6g.medium"
-  # alternative instance_type for Amazon Linux x86 built by Amazon Web Services  
-  #  instance_type           = "t2.micro"
+  #  ami                     = "ami-0e7290665643979b5" # Amazon Linux ARM AMI built by Amazon Web Services - FOR DOCKER image COMPATIBILITY
+  # alternative ami for Amazon Linux x86 built by Amazon Web Services
+  ami                     = "ami-0d7a109bf30624c99"
+  #  instance_type           = "c6g.medium"
+  # alternative instance_type for Amazon Linux x86 built by Amazon Web Services
+  instance_type           = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
   key_name               = "vockey"
 
