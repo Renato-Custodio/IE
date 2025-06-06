@@ -14,8 +14,8 @@ provider "aws" {
 }
 
 resource "aws_instance" "exampleInstallCamundaEngine" {
-  ami                     = "ami-045269a1f5c90a6a0"
-  instance_type           = "t2.small"
+  ami                     = "ami-0e9bbd70d26d7cf4f"
+  instance_type           = "t2.micro"
   vpc_security_group_ids  = [aws_security_group.instance.id]
   key_name                = "vockey"
 

@@ -38,3 +38,7 @@ nb-configuration.xml
 
 # access.sh
 access.sh
+
+# terraform
+.terraform*
+terraform.tfstate*
