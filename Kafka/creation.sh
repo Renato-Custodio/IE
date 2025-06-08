@@ -11,7 +11,8 @@ dataDir=/var/lib/zookeeper
 clientPort=2181
 maxClientCnxns=60
 initLimit=10
-syncLimit=5" > /usr/local/zookeeper/conf/zoo.cfg 
+syncLimit=5
+4lw.commands.whitelist=stat,ruok,mntr,conf,srvr" > /usr/local/zookeeper/conf/zoo.cfg 
 
 sudo yum -y install java-17-amazon-corretto-devel.x86_64
 
