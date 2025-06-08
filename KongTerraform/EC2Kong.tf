@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "exampleInstallKong" {
-  ami                     = "ami-045269a1f5c90a6a0"
+  ami                     = "ami-0e9bbd70d26d7cf4f"
   instance_type           = "t2.small"
   vpc_security_group_ids  = [aws_security_group.instance.id]
   key_name                = "vockey"
@@ -52,10 +52,3 @@ variable "security_group_name" {
   type        = string
   default     = "terraform-kong-instance5"
 }
-
-output "address" {
-  value       = aws_instance.exampleInstallKong.public_dns
-  description = "Connect to the KONG at this endpoint"
-}
-
-

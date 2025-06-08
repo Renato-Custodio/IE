@@ -45,6 +45,12 @@ sudo docker run -d --name kong-gateway \
 -p 127.0.0.1:8444:8444 \
 kong/kong-gateway:3.9.0.0
 
+# To create a Service to redirect to a microservice
+# curl -i -X POST --url http://localhost:8001/services/ --data 'name=customer-service' --data 'url=http://ec2-52-87-165-25.compute-1.amazonaws.com:8080/Customer'
+
+# To create a Route to that Service
+# curl -i -X POST http://localhost:8001/services/customer-service/routes --data 'name=customer-route' --data 'paths[]=/customer'
+
 echo "Finished."
 
 
