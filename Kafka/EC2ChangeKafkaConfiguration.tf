@@ -99,7 +99,7 @@ resource "null_resource" "configure_kafka" {
     type        = "ssh"
     user        = "ec2-user"
     host        = aws_instance.exampleCluster[count.index].public_dns
-    private_key = file("~/labuser.pem")
+    private_key = file("~/tecnico/SEI/labs/labsuser.pem")
   }
 
   provisioner "file" {
