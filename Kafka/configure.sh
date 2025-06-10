@@ -60,11 +60,21 @@ sudo /usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/
 
 # only create topics one time(in this case in the leader)
 
+echo "Waiting for ${broker_count} brokers"
+
 while true; do
   ids=$(sudo /usr/local/kafka/bin/zookeeper-shell.sh $(hostname):2181 ls /brokers/ids 2>/dev/null | grep '\[')
 
-  if echo "$ids" | grep -q '1' && echo "$ids" | grep -q '2' && echo "$ids" | grep -q '3'; then
-    echo "✅ All 3 brokers are up: $ids"
+  all_up=true
+  for i in $(seq 1 ${broker_count}); do
+    if ! echo "$ids" | grep -q "$i"; then
+      all_up=false
+      break
+    fi
+  done
+
+  if [ "$all_up" = true ]; then
+    echo "✅ All ${broker_count} brokers are up: $ids"
     break
   else
     echo "⏳ Waiting for brokers... current IDs: $ids"

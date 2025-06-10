@@ -115,6 +115,7 @@ resource "null_resource" "configure_kafka" {
         for i, dns in aws_instance.exampleCluster[*].public_dns :
         "server.${i + 1}=${dns}:2888:3888"
       ])
+      broker_count = var.nBroker
     })
     destination = "/tmp/configure.sh"
   }
