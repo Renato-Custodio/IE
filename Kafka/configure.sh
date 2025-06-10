@@ -84,7 +84,6 @@ done
 
 if echo stat | nc localhost 2181 | grep "leader"; then
   echo "Creating topics..."
-  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor 3 --partitions 3 --topic LoyaltyCard-at-shop
   sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor 3 --partitions 3 --topic DiscountCoupon
   sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor 3 --partitions 4 --topic CrossSellingRecommendation
 fi
