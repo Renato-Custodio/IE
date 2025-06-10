@@ -62,7 +62,7 @@ public class DiscountCouponResource {
         @POST
         public Uni<Response> createAndProduce(@RequestBody ApiDiscountCouponRequest request) {
                 //Produce event to topic
-                Thread worker = new StaticTopicProducer(kafkaServers, client, request);
+                Thread worker = new StaticTopicProducer(kafkaServers, request);
                 worker.start();
 
                 return DiscountCoupon

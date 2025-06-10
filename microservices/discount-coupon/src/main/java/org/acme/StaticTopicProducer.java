@@ -1,7 +1,5 @@
 package org.acme;
 
-import io.vertx.mutiny.mysqlclient.MySQLPool;
-import jakarta.inject.Inject;
 import org.acme.api.ApiDiscountCouponRequest;
 import org.acme.model.Message;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -21,16 +19,11 @@ public class StaticTopicProducer extends Thread {
     private final String kafkaServers;
     private final ApiDiscountCouponRequest discountCoupon;
 
-    @Inject
-    io.vertx.mutiny.mysqlclient.MySQLPool client;
-
     public StaticTopicProducer(
         final String kafkaServers,
-        final MySQLPool client,
         final ApiDiscountCouponRequest discountCoupon)
     {
         this.kafkaServers = kafkaServers;
-        this.client = client;
         this.discountCoupon  = discountCoupon;
     }
 
@@ -50,7 +43,7 @@ public class StaticTopicProducer extends Thread {
                 discountCoupon.idShops(),
                 discountCoupon.discount(),
                 discountCoupon.expiryDate());
-            // this.sendMessage(message, producer);
+            this.sendMessage(message, producer);
 
         } catch (Exception e) {
             LOGGER.warn("Exception caught in producer: {}", e.getMessage());
