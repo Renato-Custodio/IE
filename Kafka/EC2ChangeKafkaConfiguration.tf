@@ -90,6 +90,12 @@ variable "security_group_name" {
   default     = "terraform-example-instances"
 }
 
+variable "ssh_private_key_path" {
+  description = "Path to the SSH private key used for EC2 access"
+  type        = string
+}
+
+
 resource "null_resource" "configure_kafka" {
   count = var.nBroker
 
@@ -99,7 +105,7 @@ resource "null_resource" "configure_kafka" {
     type        = "ssh"
     user        = "ec2-user"
     host        = aws_instance.exampleCluster[count.index].public_dns
-    private_key = file("~/labuser.pem")
+    private_key = file(var.ssh_private_key_path)
   }
 
   provisioner "file" {

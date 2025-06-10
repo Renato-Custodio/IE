@@ -31,8 +31,6 @@ fi
 sudo /usr/local/zookeeper/bin/zkServer.sh stop
 sleep 2
 
-#!/bin/bash
-
 while true; do
   echo "Starting ZooKeeper..."
   sudo /usr/local/zookeeper/bin/zkServer.sh start
