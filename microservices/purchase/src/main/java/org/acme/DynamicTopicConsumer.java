@@ -58,13 +58,15 @@ public class DynamicTopicConsumer extends Thread  {
                         String supplier = obj.getJSONObject("Purchase_Event").getString("Supplier");
                         String shopName = obj.getJSONObject("Purchase_Event").getString("Shop");
                         String loyaltyCardId = obj.getJSONObject("Purchase_Event").getString("LoyaltyCard_ID");
-                        String query = "INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id) VALUES ("
+                        String discountCouponId = obj.getJSONObject("Purchase_Event").getString("DiscountCoupon_ID");
+                        String query = "INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ("
                             + "'" + timestamp + "',"
                             + "'" + price + "',"
                             + "'" + product + "',"
                             + "'" + supplier + "',"
                             + "'" + shopName + "',"
-                            + loyaltyCardId
+                            + "'" + loyaltyCardId + "',"
+                            + discountCouponId
                             + ")";
 
                         client.query(query).execute().await().indefinitely();
