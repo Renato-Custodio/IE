@@ -43,6 +43,12 @@ public class Shop {
 				.onItem().transform(iterator -> iterator.hasNext() ? from(iterator.next()) : null);
 	}
 
+	public static Uni<Shop> findByShopName(MySQLPool client, String name) {
+		return client.preparedQuery("SELECT id, name, location FROM Shops WHERE name = ?").execute(Tuple.of(name))
+				.onItem().transform(RowSet::iterator)
+				.onItem().transform(iterator -> iterator.hasNext() ? from(iterator.next()) : null);
+	}
+
 	public static Uni<Boolean> save(MySQLPool client , String name_R, String loc)
 	{
 		return client.preparedQuery("INSERT INTO Shops(name,location) VALUES (?,?)").execute(Tuple.of(name_R , loc))

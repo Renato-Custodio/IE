@@ -33,7 +33,7 @@ public class ShopResource {
     private void initdb() {
         // In a production environment this configuration SHOULD NOT be used
         client.query("DROP TABLE IF EXISTS Shops").execute()
-        .flatMap(r -> client.query("CREATE TABLE Shops (id SERIAL PRIMARY KEY, name TEXT NOT NULL, location TEXT NOT NULL)").execute())
+        .flatMap(r -> client.query("CREATE TABLE Shops (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL UNIQUE, location TEXT NOT NULL)").execute())
         .flatMap(r -> client.query("INSERT INTO Shops (name,location) VALUES ('ArcoCegoLisbon','Lisboa')").execute())
         .flatMap(r -> client.query("INSERT INTO Shops (name,location) VALUES ('PracadeBocage','Setubal')").execute())
         .flatMap(r -> client.query("INSERT INTO Shops (name,location) VALUES ('PracadaBoavista','Porto')").execute())
@@ -50,6 +50,14 @@ public class ShopResource {
     @Path("{id}")
     public Uni<Response> getSingle(Long id) {
         return Shop.findById(client, id)
+                .onItem().transform(shop -> shop != null ? Response.ok(shop) : Response.status(Response.Status.NOT_FOUND)) 
+                .onItem().transform(ResponseBuilder::build); 
+    }
+
+    @GET
+    @Path("/name/{ShopName}")
+    public Uni<Response> getByShopName(String ShopName) {
+        return Shop.findByShopName(client, ShopName)
                 .onItem().transform(shop -> shop != null ? Response.ok(shop) : Response.status(Response.Status.NOT_FOUND)) 
                 .onItem().transform(ResponseBuilder::build); 
     }
