@@ -41,11 +41,11 @@ public class CrossSellingRecommendationResource {
     private void initdb() {
         // In a production environment this configuration SHOULD NOT be used
         client.query("DROP TABLE IF EXISTS CrossSellingRecommendations").execute()
-        .flatMap(r -> client.query("CREATE TABLE CrossSellingRecommendations (id SERIAL PRIMARY KEY, id_loyalty_card BIGINT UNSIGNED, id_shops TEXT NOT NULL)").execute())
-        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops) VALUES (1, '[1, 2, 3]')").execute())
-        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops) VALUES (2, '[4, 5, 6]')").execute())
-        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops) VALUES (2, '[1, 5, 6]')").execute())
-        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops) VALUES (3, '[3, 4, 6]')").execute())
+        .flatMap(r -> client.query("CREATE TABLE CrossSellingRecommendations (id SERIAL PRIMARY KEY, id_loyalty_card BIGINT UNSIGNED, id_shops TEXT NOT NULL, recommendation TEXT NOT NULL)").execute())
+        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops,recommendation) VALUES (1, '[1, 2, 3]', 'Pencil')").execute())
+        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops,recommendation) VALUES (2, '[4, 5, 6]', 'Apple')").execute())
+        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops,recommendation) VALUES (2, '[1, 5, 6]', 'Grapes')").execute())
+        .flatMap(r -> client.query("INSERT INTO CrossSellingRecommendations (id_loyalty_card,id_shops,recommendation) VALUES (3, '[3, 4, 6]', 'Cookies')").execute())
             .await().indefinitely();
     }
 
@@ -59,7 +59,8 @@ public class CrossSellingRecommendationResource {
             .save(
                 client,
                 request.idLoyaltyCard(),
-                request.idShops())
+                request.idShops(),
+                request.recommendation())
             .onItem().transform(id -> URI.create("/CrossSellingRecommendation/" + id))
             .onItem().transform(uri -> Response.created(uri).build());
     }
@@ -93,7 +94,8 @@ public class CrossSellingRecommendationResource {
                 client,
                 id,
                 request.idLoyaltyCard(),
-                request.idShops())
+                request.idShops(),
+                request.recommendation())
             .onItem()
             .transform(updated -> updated ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND)
             .onItem().transform(status -> Response.status(status).build());
