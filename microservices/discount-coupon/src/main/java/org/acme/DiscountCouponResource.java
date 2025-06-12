@@ -42,19 +42,19 @@ public class DiscountCouponResource {
                 client.query("DROP TABLE IF EXISTS DiscountCoupons")
                     .execute()
                 .flatMap(r -> client.query(
-                        "CREATE TABLE DiscountCoupons (id SERIAL PRIMARY KEY, id_loyalty_card BIGINT UNSIGNED, id_shops TEXT NOT NULL, discount TEXT NOT NULL, expiry_date DATETIME)")
+                        "CREATE TABLE DiscountCoupons (id SERIAL PRIMARY KEY, id_loyalty_card BIGINT UNSIGNED, discount TEXT NOT NULL, expiry_date DATETIME)")
                         .execute())
                 .flatMap(r -> client.query(
-                        "INSERT INTO DiscountCoupons (id_loyalty_card,id_shops,discount,expiry_date) VALUES (1,'[1, 2, 3]','discount1','2038-01-19 03:14:07')")
+                        "INSERT INTO DiscountCoupons (id_loyalty_card,discount,expiry_date) VALUES (1,'discount1','2038-01-19 03:14:07')")
                         .execute())
                 .flatMap(r -> client.query(
-                        "INSERT INTO DiscountCoupons (id_loyalty_card,id_shops,discount,expiry_date) VALUES (2,'[1, 2, 3]','discount2','2038-01-19 03:14:07')")
+                        "INSERT INTO DiscountCoupons (id_loyalty_card,discount,expiry_date) VALUES (1,'discount2','2038-01-19 03:14:07')")
                         .execute())
                 .flatMap(r -> client.query(
-                        "INSERT INTO DiscountCoupons (id_loyalty_card,id_shops,discount,expiry_date) VALUES (1,'[1, 2, 3]','discount3','2038-01-19 03:14:07')")
+                        "INSERT INTO DiscountCoupons (id_loyalty_card,discount,expiry_date) VALUES (1,'discount3','2038-01-19 03:14:07')")
                         .execute())
                 .flatMap(r -> client.query(
-                        "INSERT INTO DiscountCoupons (id_loyalty_card,id_shops,discount,expiry_date) VALUES (4,'[1, 2, 3]','discount4','2038-01-19 03:14:07')")
+                        "INSERT INTO DiscountCoupons (id_loyalty_card,discount,expiry_date) VALUES (2,'discount4','2038-01-19 03:14:07')")
                         .execute())
                 .await().indefinitely();
         }
@@ -69,7 +69,6 @@ public class DiscountCouponResource {
                     .save(
                         client,
                         request.idLoyaltyCard(),
-                        request.idShops(),
                         request.discount(),
                         request.expiryDate())
                     .onItem().transform(id -> URI.create("/DiscountCoupon/" + id))
@@ -92,6 +91,12 @@ public class DiscountCouponResource {
                         .onItem().transform(ResponseBuilder::build);
         }
 
+        @GET
+        @Path("/loyaltyCard/{LoyaltyCardID}")
+        public Multi<DiscountCoupon> getByLoyaltyCard(Long LoyaltyCardID) {
+               return DiscountCoupon.findByLoyaltyCardId(client, LoyaltyCardID);
+        }
+
         @DELETE
         @Path("{id}")
         public Uni<Response> delete(Long id) {
@@ -108,7 +113,6 @@ public class DiscountCouponResource {
                     client,
                     id,
                     request.idLoyaltyCard(),
-                    request.idShops(),
                     request.discount(),
                     request.expiryDate())
                 .onItem()

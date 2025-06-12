@@ -40,7 +40,6 @@ public class StaticTopicProducer extends Thread {
             // Producing message to kafka topic
             final Message message = createMessage(
                 discountCoupon.idLoyaltyCard(),
-                discountCoupon.idShops(),
                 discountCoupon.discount(),
                 discountCoupon.expiryDate());
             this.sendMessage(message, producer);
@@ -52,20 +51,17 @@ public class StaticTopicProducer extends Thread {
 
     private Message createMessage(
         final Long idLoyaltyCard,
-        final List<Long> idShops,
         final String discountType,
         final LocalDateTime expiryDate)
     {
         final Message message = new Message();
         message.setIdLoyaltyCard(idLoyaltyCard);
-        message.setIdShops(idShops);
         message.setDiscount(discountType);
         message.setExpiryDate(expiryDate);
         message.setSeqKey(TOPIC_NAME + "_" + String.valueOf(((Double) (Math.random() * 10)).intValue()));
         message.setAsText(
                 "{\"Discount_Coupon\":{" +
                         "\"idLoyaltyCard\":\"" + idLoyaltyCard + "\"," +
-                        "\"idShops\":\"" + idShops + "\"," +
                         "\"discountType\":\"" + discountType + "\"," +
                         "\"expiryDate\":\"" + expiryDate + "\"" +
                         "}}");

@@ -5,7 +5,6 @@ import java.util.List;
 
 public record ApiDiscountCouponRequest(
     Long idLoyaltyCard,
-    List<Long> idShops,
     String discount,
     LocalDateTime expiryDate)
 {}

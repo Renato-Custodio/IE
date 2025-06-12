@@ -15,7 +15,6 @@ public class DiscountCoupon {
 
 	public Long id;
 	public Long idLoyaltyCard;
-	public List<Long> idShops;
 	public String discount;
 	public LocalDateTime expiryDate;
 
@@ -25,20 +24,18 @@ public class DiscountCoupon {
 	public DiscountCoupon(
 		final Long id,
 		final Long idLoyaltyCard,
-		final List<Long> idShops,
 		final String discount,
 		final LocalDateTime expiryDate)
 	{
 		this.id = id;
 		this.idLoyaltyCard = idLoyaltyCard;
-		this.idShops = idShops;
 		this.discount = discount;
 		this.expiryDate = expiryDate;
 	}
 
 	public static Multi<DiscountCoupon> findAll(MySQLPool client) {
 		return client
-				.query("SELECT id, id_loyalty_card, id_shops, discount, expiry_date FROM DiscountCoupons ORDER BY id ASC")
+				.query("SELECT id, id_loyalty_card, discount, expiry_date FROM DiscountCoupons ORDER BY id ASC")
 				.execute()
 				.onItem().transformToMulti(set -> Multi.createFrom().iterable(set))
 				.onItem().transform(DiscountCoupon::from);
@@ -47,18 +44,26 @@ public class DiscountCoupon {
 	public static Uni<DiscountCoupon> findById(MySQLPool client, Long id) {
 		return client
 				.preparedQuery(
-						"SELECT id, id_loyalty_card, id_shops, discount, expiry_date FROM DiscountCoupons WHERE id = ?")
+						"SELECT id, id_loyalty_card, discount, expiry_date FROM DiscountCoupons WHERE id = ?")
 				.execute(Tuple.of(id))
 				.onItem().transform(RowSet::iterator)
 				.onItem().transform(iterator -> iterator.hasNext() ? from(iterator.next()) : null);
 	}
 
-	public static Uni<Boolean> save(MySQLPool client, Long idLoyaltyCard, List<Long> idShops, String discount, LocalDateTime expiryDate) {
-		final String shopIdsStr = idShops.toString();
+	public static Multi<DiscountCoupon> findByLoyaltyCardId(MySQLPool client, Long id) {
 		return client
 				.preparedQuery(
-						"INSERT INTO DiscountCoupons(id_loyalty_card, id_shops, discount, expiry_date) VALUES (?,?,?,?)")
-				.execute(Tuple.of(idLoyaltyCard, shopIdsStr, discount, expiryDate))
+						"SELECT id, id_loyalty_card, discount, expiry_date FROM DiscountCoupons WHERE id_loyalty_card = ?")
+				.execute(Tuple.of(id))
+				.onItem().transformToMulti(set -> Multi.createFrom().iterable(set))
+				.onItem().transform(DiscountCoupon::from);
+	}
+
+	public static Uni<Boolean> save(MySQLPool client, Long idLoyaltyCard, String discount, LocalDateTime expiryDate) {
+		return client
+				.preparedQuery(
+						"INSERT INTO DiscountCoupons(id_loyalty_card, discount, expiry_date) VALUES (?,?,?)")
+				.execute(Tuple.of(idLoyaltyCard, discount, expiryDate))
 				.onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
 	}
 
@@ -67,17 +72,16 @@ public class DiscountCoupon {
 				.onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
 	}
 
-	public static Uni<Boolean> update(MySQLPool client, Long id, Long idLoyaltyCard, List<Long> idShops, String discount, LocalDateTime expiryDate) {
-		final String shopIdsStr = idShops.toString();
+	public static Uni<Boolean> update(MySQLPool client, Long id, Long idLoyaltyCard, String discount, LocalDateTime expiryDate) {
 		return client.preparedQuery(
-				"UPDATE DiscountCoupons SET id_loyalty_card = ? , id_shops = ?, discount = ?, expiry_date = ? WHERE id = ?")
-				.execute(Tuple.of(idLoyaltyCard, shopIdsStr, discount, expiryDate, id))
+				"UPDATE DiscountCoupons SET id_loyalty_card = ? , discount = ?, expiry_date = ? WHERE id = ?")
+				.execute(Tuple.of(idLoyaltyCard, discount, expiryDate, id))
 				.onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
 	}
 
 	@Override
 	public String toString() {
-		return "{id:" + id + ", idLoyaltyCard:" + idLoyaltyCard + ", idShops:" + idShops + ", discount:" + discount
+		return "{id:" + id + ", idLoyaltyCard:" + idLoyaltyCard + ", discount:" + discount
 			+ ", expiryDate:" + expiryDate.toString() + "}\n";
 	}
 
@@ -85,7 +89,6 @@ public class DiscountCoupon {
 		return new DiscountCoupon(
 			row.getLong("id"),
 			row.getLong("id_loyalty_card"),
-			parseShopIds(row.getString("id_shops")),
 			row.getString("discount"),
 			row.getLocalDateTime("expiry_date"));
 	}
