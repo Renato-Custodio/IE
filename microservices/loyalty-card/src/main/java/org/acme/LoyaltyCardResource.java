@@ -37,11 +37,11 @@ public class LoyaltyCardResource {
     private void initdb() {
         // In a production environment this configuration SHOULD NOT be used
         client.query("DROP TABLE IF EXISTS LoyaltyCards").execute()
-        .flatMap(r -> client.query("CREATE TABLE LoyaltyCards (id SERIAL PRIMARY KEY, id_customer BIGINT UNSIGNED, id_shop BIGINT UNSIGNED, CONSTRAINT UC_Loyal UNIQUE (id_customer,id_shop))").execute())
-        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shop) VALUES (1,1)").execute())
-        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shop) VALUES (2,1)").execute())
-        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shop) VALUES (1,3)").execute())
-        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shop) VALUES (4,2)").execute())
+        .flatMap(r -> client.query("CREATE TABLE LoyaltyCards (id SERIAL PRIMARY KEY, id_customer BIGINT UNSIGNED NOT NULL UNIQUE, id_shops TEXT NOT NULL)").execute())
+        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shops) VALUES (1,'[1, 2, 3]')").execute())
+        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shops) VALUES (2,'[4, 5, 6]')").execute())
+        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shops) VALUES (3,'[1, 5, 6]')").execute())
+        .flatMap(r -> client.query(" INSERT INTO LoyaltyCards (id_customer,id_shops) VALUES (4,'[3, 4, 6]')").execute())
         .await().indefinitely();
     }
     
@@ -59,9 +59,9 @@ public class LoyaltyCardResource {
     }
 
     @GET
-    @Path("{idCustomer}/{idShop}")
-    public Uni<Response> getDual(Long idCustomer, Long idShop) {
-        return LoyaltyCard.findById2(client, idCustomer, idShop)
+    @Path("customerId/{idCustomer}")
+    public Uni<Response> getByCustomerId(Long idCustomer) {
+        return LoyaltyCard.findByCustomerId(client, idCustomer)
                 .onItem().transform(loyaltyCard -> loyaltyCard != null ? Response.ok(loyaltyCard) : Response.status(Response.Status.NOT_FOUND))
                 .onItem().transform(ResponseBuilder::build); 
     }
@@ -71,7 +71,7 @@ public class LoyaltyCardResource {
         return LoyaltyCard.save(
             client,
             request.idCustomer(),
-            request.idShop())
+            request.idShops())
         .onItem().transform(id -> URI.create("/LoyaltyCard/" + id))
         .onItem().transform(uri -> Response.created(uri).build());
     }
@@ -91,7 +91,7 @@ public class LoyaltyCardResource {
             client,
             id,
             request.idCustomer(),
-            request.idShop())
+            request.idShops())
         .onItem().transform(updated -> updated ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND)
         .onItem().transform(status -> Response.status(status).build());
     }

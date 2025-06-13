@@ -1,3 +1,5 @@
 package org.acme.api;
 
-public record ApiLoyaltyCardRequest(Long idCustomer, Long idShop) {}
+import java.util.List;
+
+public record ApiLoyaltyCardRequest(Long idCustomer, List<Long> idShops) {}
