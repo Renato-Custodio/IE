@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ns2:definitions xmlns:ns2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:ns3="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns4="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns5="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
   <ns2:collaboration id="coll-DEMO2BPMN">
-    <ns2:participant id="Participant_7482ecae-f244-4807-afd9-1c1ec6bd91de" name="BUSINESS ACTOR" processRef="ShopManagementCreation" />
+    <ns2:participant id="Participant_0me82ug" name="BUSINESS ACTOR" processRef="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" />
   </ns2:collaboration>
-  <ns2:process id="ShopManagementCreation" name="ShopManagement" isExecutable="true" camunda:historyTimeToLive="180">
-    <ns2:laneSet id="LaneSet_9dd354d5-3637-4087-8e77-b95490547d1f">
-      <ns2:lane id="Lane_815a5e53-d02a-41cc-a324-313a0892a456" name="New Shop - Initiator TK01">
-        <ns2:flowNodeRef>Event_87d8e39a-5282-4686-90b2-6ba5adc51c49</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_8a65cc5c-3044-4a2b-a08e-58c41cc97372</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_14rhn7y</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_9841ec7e-705e-4a46-9924-61aed9dc6c00</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_096isg2</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_1x3qvd8</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_1u2sw5b</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_0pso3d6</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_1itw1y6</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Event_fa44b575-5992-40f8-b464-09f8917512bd</ns2:flowNodeRef>
+  <ns2:process id="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" isExecutable="true" camunda:historyTimeToLive="180">
+    <ns2:laneSet id="LaneSet_1arbikh">
+      <ns2:lane id="Lane_0io2uqa" name="1-CrossSellingRecommendation - Initiator TK01">
+        <ns2:flowNodeRef>Event_15y1thm</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_0g0eaij</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_0gyunat</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_04fs5z3</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_18vavjv</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_021j68e</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_09blbbd</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Event_1r757a7</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_0922qf6</ns2:flowNodeRef>
+      </ns2:lane>
+      <ns2:lane id="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f" name="1-CrossSellingRecommendation - Executor TK01">
+        <ns2:flowNodeRef>Activity_1n7rg3o</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_1gt014p</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_10yl005</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_0catazb</ns2:flowNodeRef>
       </ns2:lane>
     </ns2:laneSet>
-    <ns2:startEvent id="Event_87d8e39a-5282-4686-90b2-6ba5adc51c49">
-      <ns2:outgoing>Flow_b7f55062-b030-4698-b662-4bb756a2fea9</ns2:outgoing>
+    <ns2:startEvent id="Event_15y1thm">
+      <ns2:outgoing>Flow_054l5vv</ns2:outgoing>
     </ns2:startEvent>
-    <ns2:serviceTask id="Activity_8a65cc5c-3044-4a2b-a08e-58c41cc97372" name="Retrieve Customer Catalog">
+    <ns2:serviceTask id="Activity_0g0eaij" name="Retrieve Customer Catalog">
       <ns2:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -34,15 +39,10 @@
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_b7f55062-b030-4698-b662-4bb756a2fea9</ns2:incoming>
-      <ns2:outgoing>Flow_1i387c7</ns2:outgoing>
+      <ns2:incoming>Flow_054l5vv</ns2:incoming>
+      <ns2:outgoing>Flow_07gqdnb</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:sequenceFlow id="Flow_b7f55062-b030-4698-b662-4bb756a2fea9" sourceRef="Event_87d8e39a-5282-4686-90b2-6ba5adc51c49" targetRef="Activity_8a65cc5c-3044-4a2b-a08e-58c41cc97372" />
-    <ns2:sequenceFlow id="Flow_1i387c7" sourceRef="Activity_8a65cc5c-3044-4a2b-a08e-58c41cc97372" targetRef="Activity_14rhn7y" />
-    <ns2:sequenceFlow id="Flow_0qnn8qi" sourceRef="Activity_096isg2" targetRef="Activity_1x3qvd8" />
-    <ns2:sequenceFlow id="Flow_17sojbx" sourceRef="Activity_1x3qvd8" targetRef="Activity_1u2sw5b" />
-    <ns2:sequenceFlow id="Flow_14sgc5h" sourceRef="Activity_14rhn7y" targetRef="Activity_9841ec7e-705e-4a46-9924-61aed9dc6c00" />
-    <ns2:serviceTask id="Activity_14rhn7y" name="Retrieve Shop Catalog">
+    <ns2:serviceTask id="Activity_0gyunat" name="Retrieve Shop Catalog">
       <ns2:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -55,21 +55,20 @@
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_1i387c7</ns2:incoming>
-      <ns2:outgoing>Flow_14sgc5h</ns2:outgoing>
+      <ns2:incoming>Flow_07gqdnb</ns2:incoming>
+      <ns2:outgoing>Flow_0ey4or6</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:userTask id="Activity_9841ec7e-705e-4a46-9924-61aed9dc6c00" name="Decide the data to order a CrossSellingRecommendation" camunda:assignee="demo">
+    <ns2:userTask id="Activity_04fs5z3" name="Decide the data to order a CrossSellingRecommendation" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="CustomerID" label="CustomerID" type="string" />
           <camunda:formField id="ShopIDs" label="ShopIDs" type="string" />
         </camunda:formData>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_14sgc5h</ns2:incoming>
-      <ns2:outgoing>Flow_0tcmj29</ns2:outgoing>
+      <ns2:incoming>Flow_0ey4or6</ns2:incoming>
+      <ns2:outgoing>Flow_1gn1fun</ns2:outgoing>
     </ns2:userTask>
-    <ns2:sequenceFlow id="Flow_0tcmj29" sourceRef="Activity_9841ec7e-705e-4a46-9924-61aed9dc6c00" targetRef="Activity_096isg2" />
-    <ns2:serviceTask id="Activity_096isg2" name="Retrieve Customer loyalty card">
+    <ns2:serviceTask id="Activity_18vavjv" name="Retrieve Customer loyalty card">
       <ns2:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -82,10 +81,10 @@
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_0tcmj29</ns2:incoming>
-      <ns2:outgoing>Flow_0qnn8qi</ns2:outgoing>
+      <ns2:incoming>Flow_1gn1fun</ns2:incoming>
+      <ns2:outgoing>Flow_1ju2jjh</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:serviceTask id="Activity_1x3qvd8" name="Retrieve Customer Purchases">
+    <ns2:serviceTask id="Activity_021j68e" name="Retrieve Customer Purchases">
       <ns2:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -98,22 +97,27 @@
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_0qnn8qi</ns2:incoming>
-      <ns2:outgoing>Flow_17sojbx</ns2:outgoing>
+      <ns2:incoming>Flow_1ju2jjh</ns2:incoming>
+      <ns2:outgoing>Flow_17mhzad</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:userTask id="Activity_1u2sw5b" name="Decide the recommendation based on purchases">
+    <ns2:userTask id="Activity_09blbbd" name="Decide the recommendation based on purchases">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="Recommendation" label="Recommendation" type="string" />
         </camunda:formData>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_17sojbx</ns2:incoming>
-      <ns2:outgoing>Flow_1ilr9xl</ns2:outgoing>
+      <ns2:incoming>Flow_17mhzad</ns2:incoming>
+      <ns2:outgoing>Flow_18j0787</ns2:outgoing>
     </ns2:userTask>
-    <ns2:sequenceFlow id="Flow_1g2roik" sourceRef="Activity_1itw1y6" targetRef="Event_fa44b575-5992-40f8-b464-09f8917512bd" />
-    <ns2:sequenceFlow id="Flow_1ilzust" sourceRef="Activity_0pso3d6" targetRef="Activity_1itw1y6" />
-    <ns2:sequenceFlow id="Flow_1ilr9xl" sourceRef="Activity_1u2sw5b" targetRef="Activity_0pso3d6" />
-    <ns2:serviceTask id="Activity_0pso3d6" name="Create CrossSellingRecommendation">
+    <ns2:task id="Activity_1n7rg3o" name="Promise CrossSellingRecommendation">
+      <ns2:incoming>Flow_1jiuwp0</ns2:incoming>
+      <ns2:outgoing>Flow_14ansid</ns2:outgoing>
+    </ns2:task>
+    <ns2:task id="Activity_1gt014p" name="Declare CrossSellingRecommendation">
+      <ns2:incoming>Flow_1ahvhxr</ns2:incoming>
+      <ns2:outgoing>Flow_11pybsi</ns2:outgoing>
+    </ns2:task>
+    <ns2:serviceTask id="Activity_10yl005" name="Create CrossSellingRecommendation">
       <ns2:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -134,108 +138,157 @@
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_1ilr9xl</ns2:incoming>
-      <ns2:outgoing>Flow_1ilzust</ns2:outgoing>
+      <ns2:incoming>Flow_14ansid</ns2:incoming>
+      <ns2:outgoing>Flow_1ahvhxr</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:userTask id="Activity_1itw1y6" name="Verify CrossSellingRecommendation">
+    <ns2:userTask id="Activity_0catazb" name="Verify if CrossSellingRecommendation is valid">
+      <ns2:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="recommendationValid" label="recommendationValid" type="boolean" />
+        </camunda:formData>
+      </ns2:extensionElements>
+      <ns2:incoming>Flow_18j0787</ns2:incoming>
+      <ns2:outgoing>Flow_1jiuwp0</ns2:outgoing>
+    </ns2:userTask>
+    <ns2:endEvent id="Event_1r757a7">
+      <ns2:incoming>Flow_1smapk9</ns2:incoming>
+    </ns2:endEvent>
+    <ns2:userTask id="Activity_0922qf6" name="Verify CrossSellingRecommendation">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="wasRecommendedSuccessfully" label="wasRecommendedSuccessfully" type="boolean" />
         </camunda:formData>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_1ilzust</ns2:incoming>
-      <ns2:outgoing>Flow_1g2roik</ns2:outgoing>
+      <ns2:incoming>Flow_11pybsi</ns2:incoming>
+      <ns2:outgoing>Flow_1smapk9</ns2:outgoing>
     </ns2:userTask>
-    <ns2:endEvent id="Event_fa44b575-5992-40f8-b464-09f8917512bd">
-      <ns2:incoming>Flow_1g2roik</ns2:incoming>
-    </ns2:endEvent>
+    <ns2:sequenceFlow id="Flow_054l5vv" sourceRef="Event_15y1thm" targetRef="Activity_0g0eaij" />
+    <ns2:sequenceFlow id="Flow_07gqdnb" sourceRef="Activity_0g0eaij" targetRef="Activity_0gyunat" />
+    <ns2:sequenceFlow id="Flow_0ey4or6" sourceRef="Activity_0gyunat" targetRef="Activity_04fs5z3" />
+    <ns2:sequenceFlow id="Flow_1gn1fun" sourceRef="Activity_04fs5z3" targetRef="Activity_18vavjv" />
+    <ns2:sequenceFlow id="Flow_1ju2jjh" sourceRef="Activity_18vavjv" targetRef="Activity_021j68e" />
+    <ns2:sequenceFlow id="Flow_17mhzad" sourceRef="Activity_021j68e" targetRef="Activity_09blbbd" />
+    <ns2:sequenceFlow id="Flow_18j0787" sourceRef="Activity_09blbbd" targetRef="Activity_0catazb" />
+    <ns2:sequenceFlow id="Flow_1jiuwp0" sourceRef="Activity_0catazb" targetRef="Activity_1n7rg3o" />
+    <ns2:sequenceFlow id="Flow_14ansid" sourceRef="Activity_1n7rg3o" targetRef="Activity_10yl005" />
+    <ns2:sequenceFlow id="Flow_1ahvhxr" sourceRef="Activity_10yl005" targetRef="Activity_1gt014p" />
+    <ns2:sequenceFlow id="Flow_11pybsi" sourceRef="Activity_1gt014p" targetRef="Activity_0922qf6" />
+    <ns2:sequenceFlow id="Flow_1smapk9" sourceRef="Activity_0922qf6" targetRef="Event_1r757a7" />
   </ns2:process>
   <ns4:BPMNDiagram id="diagram-DEMO2BPMN">
     <ns4:BPMNPlane xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="plane-DEMO2BPMN" bpmnElement="coll-DEMO2BPMN">
-      <ns4:BPMNShape id="Participant_7482ecae-f244-4807-afd9-1c1ec6bd91de_di" bpmnElement="Participant_7482ecae-f244-4807-afd9-1c1ec6bd91de" isHorizontal="true">
-        <ns5:Bounds x="180" y="50" width="2208" height="340" />
+      <ns4:BPMNShape id="BPMNShape_1p5ah6u" bpmnElement="Participant_0me82ug" isHorizontal="true">
+        <ns5:Bounds x="172" y="125" width="1608" height="340" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="Lane_815a5e53-d02a-41cc-a324-313a0892a456_di" bpmnElement="Lane_815a5e53-d02a-41cc-a324-313a0892a456" isHorizontal="true">
-        <ns5:Bounds x="210" y="50" width="2178" height="340" />
+      <ns4:BPMNShape id="BPMNShape_1npo2xv" bpmnElement="Lane_0io2uqa" isHorizontal="true">
+        <ns5:Bounds x="202" y="125" width="1578" height="170" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="Event_05rjfxm_di" bpmnElement="Event_87d8e39a-5282-4686-90b2-6ba5adc51c49">
-        <ns5:Bounds x="261" y="117" width="36" height="36" />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="Activity_1rhs2ng_di" bpmnElement="Activity_8a65cc5c-3044-4a2b-a08e-58c41cc97372" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="359" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f_di" bpmnElement="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f" isHorizontal="true">
+        <ns5:Bounds x="202" y="295" width="1578" height="170" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0g3xxf2" bpmnElement="Activity_14rhn7y" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="520" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_0x1cazr" bpmnElement="Event_15y1thm">
+        <ns5:Bounds x="252" y="192" width="36" height="36" />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_04n2k57" bpmnElement="Activity_0g0eaij" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="320" y="170" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0gjiahp" bpmnElement="Activity_9841ec7e-705e-4a46-9924-61aed9dc6c00">
-        <ns5:Bounds x="660" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_0mljf52" bpmnElement="Activity_0gyunat" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="450" y="170" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_1seu0su" bpmnElement="Activity_096isg2" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="830" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_0lkx0os" bpmnElement="Activity_04fs5z3">
+        <ns5:Bounds x="590" y="170" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0lkt4ow" bpmnElement="Activity_1x3qvd8" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="1000" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_1ob92w5" bpmnElement="Activity_18vavjv" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="740" y="170" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="Activity_03vq8zq_di" bpmnElement="Activity_1u2sw5b">
-        <ns5:Bounds x="1180" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_0tnif2d" bpmnElement="Activity_021j68e" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="890" y="170" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0ziinsq" bpmnElement="Activity_0pso3d6" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="1360" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_0gmv6ws" bpmnElement="Activity_09blbbd">
+        <ns5:Bounds x="1040" y="170" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="Activity_0dkhzai_di" bpmnElement="Activity_1itw1y6">
-        <ns5:Bounds x="1540" y="95" width="100" height="80" />
+      <ns4:BPMNShape id="Activity_1n7rg3o_di" bpmnElement="Activity_1n7rg3o">
+        <ns5:Bounds x="1200" y="345" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="Event_fa44b575-5992-40f8-b464-09f8917512bd_di" bpmnElement="Event_fa44b575-5992-40f8-b464-09f8917512bd">
-        <ns5:Bounds x="1722" y="117" width="36" height="36" />
+      <ns4:BPMNShape id="Activity_1gt014p_di" bpmnElement="Activity_1gt014p">
+        <ns5:Bounds x="1524" y="345" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_1mgypbb" bpmnElement="Activity_10yl005" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="1370" y="345" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_1m4avkd" bpmnElement="Activity_0catazb">
+        <ns5:Bounds x="1040" y="345" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_05oxwxz" bpmnElement="Event_1r757a7">
+        <ns5:Bounds x="1692" y="192" width="36" height="36" />
         <ns4:BPMNLabel>
           <ns5:Bounds x="1027" y="153" width="24" height="14" />
         </ns4:BPMNLabel>
       </ns4:BPMNShape>
-      <ns4:BPMNEdge id="Edge_d3f0c9f6-16e9-40b8-b7ae-706f1e5298a0" bpmnElement="Flow_b7f55062-b030-4698-b662-4bb756a2fea9">
-        <ns3:waypoint x="297" y="135" />
-        <ns3:waypoint x="359" y="135" />
+      <ns4:BPMNShape id="BPMNShape_139m6t5" bpmnElement="Activity_0922qf6">
+        <ns5:Bounds x="1530" y="170" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNEdge id="Flow_054l5vv_di" bpmnElement="Flow_054l5vv">
+        <ns3:waypoint x="288" y="210" />
+        <ns3:waypoint x="320" y="210" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1i387c7_di" bpmnElement="Flow_1i387c7">
-        <ns3:waypoint x="459" y="135" />
-        <ns3:waypoint x="520" y="135" />
+      <ns4:BPMNEdge id="Flow_07gqdnb_di" bpmnElement="Flow_07gqdnb">
+        <ns3:waypoint x="420" y="210" />
+        <ns3:waypoint x="450" y="210" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_0qnn8qi_di" bpmnElement="Flow_0qnn8qi">
-        <ns3:waypoint x="930" y="135" />
-        <ns3:waypoint x="1000" y="135" />
+      <ns4:BPMNEdge id="Flow_0ey4or6_di" bpmnElement="Flow_0ey4or6">
+        <ns3:waypoint x="550" y="210" />
+        <ns3:waypoint x="590" y="210" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_17sojbx_di" bpmnElement="Flow_17sojbx">
-        <ns3:waypoint x="1100" y="135" />
-        <ns3:waypoint x="1180" y="135" />
+      <ns4:BPMNEdge id="Flow_1gn1fun_di" bpmnElement="Flow_1gn1fun">
+        <ns3:waypoint x="690" y="210" />
+        <ns3:waypoint x="740" y="210" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_14sgc5h_di" bpmnElement="Flow_14sgc5h">
-        <ns3:waypoint x="620" y="135" />
-        <ns3:waypoint x="660" y="135" />
+      <ns4:BPMNEdge id="Flow_1ju2jjh_di" bpmnElement="Flow_1ju2jjh">
+        <ns3:waypoint x="840" y="210" />
+        <ns3:waypoint x="890" y="210" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_0tcmj29_di" bpmnElement="Flow_0tcmj29">
-        <ns3:waypoint x="760" y="135" />
-        <ns3:waypoint x="830" y="135" />
+      <ns4:BPMNEdge id="Flow_17mhzad_di" bpmnElement="Flow_17mhzad">
+        <ns3:waypoint x="990" y="210" />
+        <ns3:waypoint x="1040" y="210" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1g2roik_di" bpmnElement="Flow_1g2roik">
-        <ns3:waypoint x="1640" y="135" />
-        <ns3:waypoint x="1722" y="135" />
+      <ns4:BPMNEdge id="Flow_18j0787_di" bpmnElement="Flow_18j0787">
+        <ns3:waypoint x="1090" y="250" />
+        <ns3:waypoint x="1090" y="345" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1ilzust_di" bpmnElement="Flow_1ilzust">
-        <ns3:waypoint x="1460" y="135" />
-        <ns3:waypoint x="1540" y="135" />
+      <ns4:BPMNEdge id="Flow_1jiuwp0_di" bpmnElement="Flow_1jiuwp0">
+        <ns3:waypoint x="1140" y="385" />
+        <ns3:waypoint x="1200" y="385" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1ilr9xl_di" bpmnElement="Flow_1ilr9xl">
-        <ns3:waypoint x="1280" y="135" />
-        <ns3:waypoint x="1360" y="135" />
+      <ns4:BPMNEdge id="Flow_14ansid_di" bpmnElement="Flow_14ansid">
+        <ns3:waypoint x="1300" y="385" />
+        <ns3:waypoint x="1370" y="385" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_1ahvhxr_di" bpmnElement="Flow_1ahvhxr">
+        <ns3:waypoint x="1470" y="385" />
+        <ns3:waypoint x="1524" y="385" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_11pybsi_di" bpmnElement="Flow_11pybsi">
+        <ns3:waypoint x="1574" y="345" />
+        <ns3:waypoint x="1574" y="250" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_1smapk9_di" bpmnElement="Flow_1smapk9">
+        <ns3:waypoint x="1630" y="210" />
+        <ns3:waypoint x="1692" y="210" />
       </ns4:BPMNEdge>
     </ns4:BPMNPlane>
   </ns4:BPMNDiagram>
