@@ -77,7 +77,7 @@ public class StaticTopicProducer extends Thread  {
             //Producing message to kafka topic SelledProductByShop
             final Message shopMessage = createSelledProductByShopMessage(
                 selledProductAnalytics.idPurchase(),
-                selledProductAnalytics.idShop());
+                selledProductAnalytics.shopName());
             this.sendMessage(shopMessage, SELLED_PRODUCT_BY_SHOP_TOPIC_NAME, producer);
         }
         catch (Exception e) {
@@ -155,16 +155,16 @@ public class StaticTopicProducer extends Thread  {
 
     private Message createSelledProductByShopMessage(
         final Long idPurchase,
-        final Long idShop)
+        final String shopName)
     {
         final Message message = new Message();
         message.setIdPurchase(idPurchase);
-        message.setIdShop(idShop);
+        message.setShopName(shopName);
         message.setSeqKey(SELLED_PRODUCT_BY_SHOP_TOPIC_NAME + "_" + String.valueOf(((Double) (Math.random() * 10)).intValue()));
         message.setAsText(
             "{\"SelledProductAnalytics\":{" +
                 "\"idPurchase\":\"" + idPurchase + "\"," +
-                "\"idShop\":\"" + idShop + "\"" +
+                "\"shopName\":\"" + shopName + "\"" +
                 "}}"
         );
         return message;

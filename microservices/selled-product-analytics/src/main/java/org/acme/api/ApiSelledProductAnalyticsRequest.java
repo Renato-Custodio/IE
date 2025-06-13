@@ -3,7 +3,7 @@ package org.acme.api;
 public record ApiSelledProductAnalyticsRequest(
     String location,
     Long idCustomer,
-    Long idShop,
+    String shopName,
     Long idLoyaltyCard,
     Long idCoupon,
     Long idPurchase)

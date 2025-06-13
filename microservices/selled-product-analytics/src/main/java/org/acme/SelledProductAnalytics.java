@@ -7,9 +7,6 @@ import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SelledProductAnalytics {
     public Long id;
     public Long idPurchase;

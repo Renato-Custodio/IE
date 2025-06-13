@@ -6,7 +6,7 @@ public class Message {
     private String seqKey;
     private Long idPurchase;
     private Long idLoyaltyCard;
-    private Long idShop;
+    private String shopName;
     private Long idCustomer;
     private Long idCoupon;
     private String location;
@@ -37,12 +37,12 @@ public class Message {
         this.idLoyaltyCard = idLoyaltyCard;
     }
 
-    public Long getIdShop() {
-        return idShop;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setIdShop(Long idShop) {
-        this.idShop = idShop;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
     public Long getIdCustomer() {
