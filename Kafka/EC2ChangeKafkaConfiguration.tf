@@ -122,8 +122,9 @@ resource "null_resource" "configure_kafka" {
 
   provisioner "remote-exec" {
     inline = [
+      "until [ -f /tmp/configure.sh ]; do echo 'Waiting for /tmp/configure.sh...'; sleep 2; done",
       "chmod +x /tmp/configure.sh",
-      "sudo /tmp/configure.sh"
+      "bash /tmp/configure.sh"
     ]
   }
 }

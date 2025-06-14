@@ -53,6 +53,6 @@ resource "aws_security_group" "instance" {
 variable "security_group_name" {
   description = "The name of the security group"
   type        = string
-  default     = "terraform-Quarkus-instance12"
+  default     = "terraform-Quarkus-instance16"
 }
 

@@ -7,8 +7,8 @@ while [ ! -f /usr/local/zookeeper/conf/zoo.cfg ]; do
 done
 
 if ! grep -q "${zoo_servers}" /usr/local/zookeeper/conf/zoo.cfg; then
-  echo "" >> /usr/local/zookeeper/conf/zoo.cfg
-  echo "${zoo_servers}" >> /usr/local/zookeeper/conf/zoo.cfg
+  echo "" | sudo tee -a /usr/local/zookeeper/conf/zoo.cfg
+  echo "${zoo_servers}" | sudo tee -a /usr/local/zookeeper/conf/zoo.cfg
   echo "zoo_servers appended to zoo.cfg"
 else
   echo "zoo_servers already present in zoo.cfg, skipping append"
@@ -21,8 +21,8 @@ while [ ! -f /usr/local/kafka/config/server.properties ]; do
 done
 
 if ! grep -q "${zk_connect}" /usr/local/kafka/config/server.properties; then
-  echo "" >> /usr/local/kafka/config/server.properties
-  echo "zookeeper.connect=${zk_connect}" >> /usr/local/kafka/config/server.properties
+  echo "" | sudo tee -a /usr/local/kafka/config/server.properties
+  echo "zookeeper.connect=${zk_connect}" | sudo tee -a /usr/local/kafka/config/server.properties
 else
   echo "zk_connect already present in /usr/local/kafka/config/server.properties, skipping append"
 fi
