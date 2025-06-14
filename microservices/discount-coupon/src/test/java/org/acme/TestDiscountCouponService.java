@@ -24,11 +24,11 @@ public class TestDiscountCouponService {
     void resetDatabase() {
         client.query("DELETE FROM DiscountCoupons").execute().await().indefinitely();
         client.query("""
-            INSERT INTO DiscountCoupons (id, id_loyalty_card, id_shops, discount, expiry_date) VALUES
-            (1, 1,'[1, 2, 3]','discount1','2038-01-19 03:14:07'),
-            (2, 2,'[1, 2, 3]','discount2','2038-01-19 03:14:07'),
-            (3, 1,'[1, 2, 3]','discount3','2038-01-19 03:14:07'),
-            (4, 4,'[1, 2, 3]','discount4','2038-01-19 03:14:07')
+            INSERT INTO DiscountCoupons (id, id_loyalty_card, discount, expiry_date) VALUES
+            (1, 1,'discount1','2038-01-19 03:14:07'),
+            (2, 2,'discount2','2038-01-19 03:14:07'),
+            (3, 1,'discount3','2038-01-19 03:14:07'),
+            (4, 4,'discount4','2038-01-19 03:14:07')
         """).execute().await().indefinitely();
     }
 
@@ -65,7 +65,6 @@ public class TestDiscountCouponService {
         final String payload = """
             {
             	"idLoyaltyCard": 5,
-                "idShops": [4, 7, 8],
                 "discount": "Percentage",
                 "expiryDate": "2038-01-19T03:14:07"
             }
@@ -87,7 +86,6 @@ public class TestDiscountCouponService {
         final String payload = """
             {
             	"idLoyaltyCard": 5,
-                "idShops": [4, 7, 8],
                 "discount": "Percentage",
                 "expiryDate": "2038-01-19T03:14:07"
             }

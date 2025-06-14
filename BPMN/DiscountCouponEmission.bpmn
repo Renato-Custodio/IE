@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ns2:definitions xmlns:ns2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:ns3="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns4="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns5="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
-  <ns2:collaboration id="coll-DEMO2BPMN">
-    <ns2:participant id="Participant_0me82ug" name="BUSINESS ACTOR" processRef="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" />
+  <ns2:collaboration id="DiscountCoupon">
+    <ns2:participant id="Participant_0me82ug" name="BUSINESS ACTOR" processRef="DiscountCouponEmission" />
   </ns2:collaboration>
-  <ns2:process id="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" isExecutable="true" camunda:historyTimeToLive="180">
+  <ns2:process id="DiscountCouponEmission" isExecutable="true" camunda:historyTimeToLive="180">
     <ns2:laneSet id="LaneSet_1arbikh">
       <ns2:lane id="Lane_0io2uqa" name="1-DiscountCoupon - Initiator TK01">
         <ns2:flowNodeRef>Activity_8a65cc5c-3044-4a2b-a08e-58c41cc97372</ns2:flowNodeRef>
@@ -54,7 +54,7 @@
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
             <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
             <camunda:outputParameter name="LoyaltyCardID">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").stringValue();</camunda:script>
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").numberValue();</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
@@ -79,7 +79,7 @@
       <ns2:incoming>Flow_19nw114</ns2:incoming>
       <ns2:outgoing>Flow_1gv7bae</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:userTask id="Activity_1u2sw5b" name="Verify if a discount Coupon can be emitted">
+    <ns2:userTask id="Activity_1u2sw5b" name="Verify if a discount Coupon can be emitted" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="emitCoupon" label="emitCoupon" type="boolean" />
@@ -88,17 +88,17 @@
       <ns2:incoming>Flow_1gv7bae</ns2:incoming>
       <ns2:outgoing>Flow_1yc8f4r</ns2:outgoing>
     </ns2:userTask>
-    <ns2:userTask id="Activity_13arzeq" name="Decide Discount information">
+    <ns2:userTask id="Activity_13arzeq" name="Decide Discount information" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="Discount" label="Discount" type="string" />
-          <camunda:formField id="ExpiryDate" label="ExpiryDate" type="date" />
+          <camunda:formField id="ExpiryDate" label="ExpiryDate" type="string" />
         </camunda:formData>
       </ns2:extensionElements>
       <ns2:incoming>Flow_1yc8f4r</ns2:incoming>
       <ns2:outgoing>Flow_04no9ul</ns2:outgoing>
     </ns2:userTask>
-    <ns2:userTask id="Activity_1itw1y6" name="Verify DiscountCoupon Emission">
+    <ns2:userTask id="Activity_1itw1y6" name="Verify DiscountCoupon Emission" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="wasEmittedSuccessfully" label="wasEmittedSuccessfully" type="boolean" />
@@ -127,6 +127,9 @@
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
+            <camunda:outputParameter name="PostStatusCode">
+              <camunda:script scriptFormat="JavaScript">connector.getVariable("statusCode").toString();</camunda:script>
+            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -158,17 +161,17 @@
     <ns2:sequenceFlow id="Flow_11v0qs5" sourceRef="Activity_0pso3d6" targetRef="Activity_1gt014p" />
   </ns2:process>
   <ns4:BPMNDiagram id="diagram-DEMO2BPMN">
-    <ns4:BPMNPlane xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="plane-DEMO2BPMN" bpmnElement="coll-DEMO2BPMN">
+    <ns4:BPMNPlane xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="plane-DEMO2BPMN" bpmnElement="DiscountCoupon">
       <ns4:BPMNShape id="BPMNShape_1p5ah6u" bpmnElement="Participant_0me82ug" isHorizontal="true">
         <ns5:Bounds x="160" y="80" width="1380" height="340" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_1npo2xv" bpmnElement="Lane_0io2uqa" isHorizontal="true">
-        <ns5:Bounds x="190" y="80" width="1350" height="170" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
       <ns4:BPMNShape id="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f_di" bpmnElement="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f" isHorizontal="true">
         <ns5:Bounds x="190" y="250" width="1350" height="170" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_1npo2xv" bpmnElement="Lane_0io2uqa" isHorizontal="true">
+        <ns5:Bounds x="190" y="80" width="1350" height="170" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
       <ns4:BPMNShape id="Activity_1rhs2ng_di" bpmnElement="Activity_8a65cc5c-3044-4a2b-a08e-58c41cc97372" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
@@ -219,6 +222,10 @@
       <ns4:BPMNShape id="BPMNShape_0x1cazr" bpmnElement="Event_87d8e39a-5282-4686-90b2-6ba5adc51c49">
         <ns5:Bounds x="232" y="147" width="36" height="36" />
       </ns4:BPMNShape>
+      <ns4:BPMNEdge id="Flow_054l5vv_di" bpmnElement="Flow_054l5vv">
+        <ns3:waypoint x="268" y="165" />
+        <ns3:waypoint x="300" y="165" />
+      </ns4:BPMNEdge>
       <ns4:BPMNEdge id="Flow_0l8f0vz_di" bpmnElement="Flow_0l8f0vz">
         <ns3:waypoint x="400" y="165" />
         <ns3:waypoint x="440" y="165" />
@@ -243,9 +250,9 @@
         <ns3:waypoint x="950" y="340" />
         <ns3:waypoint x="1010" y="340" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_11v0qs5_di" bpmnElement="Flow_11v0qs5">
-        <ns3:waypoint x="1270" y="340" />
-        <ns3:waypoint x="1334" y="340" />
+      <ns4:BPMNEdge id="Flow_11pybsi_di" bpmnElement="Flow_11pybsi">
+        <ns3:waypoint x="1384" y="300" />
+        <ns3:waypoint x="1384" y="205" />
       </ns4:BPMNEdge>
       <ns4:BPMNEdge id="Flow_1rstzsv_di" bpmnElement="Flow_1rstzsv">
         <ns3:waypoint x="1434" y="165" />
@@ -255,13 +262,9 @@
         <ns3:waypoint x="1110" y="340" />
         <ns3:waypoint x="1170" y="340" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_11pybsi_di" bpmnElement="Flow_11pybsi">
-        <ns3:waypoint x="1384" y="300" />
-        <ns3:waypoint x="1384" y="205" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_054l5vv_di" bpmnElement="Flow_054l5vv">
-        <ns3:waypoint x="268" y="165" />
-        <ns3:waypoint x="300" y="165" />
+      <ns4:BPMNEdge id="Flow_11v0qs5_di" bpmnElement="Flow_11v0qs5">
+        <ns3:waypoint x="1270" y="340" />
+        <ns3:waypoint x="1334" y="340" />
       </ns4:BPMNEdge>
     </ns4:BPMNPlane>
   </ns4:BPMNDiagram>
