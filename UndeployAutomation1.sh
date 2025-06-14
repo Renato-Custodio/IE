@@ -49,9 +49,9 @@ terraform destroy -auto-approve
 cd ..
 
 # Terraform - RDS
-#cd RDS-Terraform
-#echo Destrying RDS
-#terraform destroy -auto-approve
-#cd ..
+cd RDS-Terraform
+echo Destrying RDS
+terraform destroy -auto-approve
+cd ..
 
 echo Finished
