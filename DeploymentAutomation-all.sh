@@ -260,6 +260,8 @@ cd Quarkus-Terraform/purchase
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE purchase IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_purchase=/c ip_purchase=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
@@ -269,6 +271,8 @@ cd Quarkus-Terraform/customer
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE customer IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_customer=/c ip_customer=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
@@ -278,6 +282,8 @@ cd Quarkus-Terraform/shop
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE shop IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_shop=/c ip_shop=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
@@ -287,6 +293,8 @@ cd Quarkus-Terraform/loyalty-card
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE loyalty-card IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_loyalty_card=/c ip_loyalty_card=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
@@ -296,6 +304,8 @@ cd Quarkus-Terraform/cross-selling-recommendation
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE cross-selling-recommendation IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_cross_selling_recommendation=/c ip_cross_selling_recommendation=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
@@ -305,6 +315,8 @@ cd Quarkus-Terraform/discount-coupon
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE discount-coupon IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_discount_coupon=/c ip_discount_coupon=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
@@ -314,6 +326,8 @@ cd Quarkus-Terraform/selled-product-analytics
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE selled-product-analytics IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_selled_product_analytics=/c ip_selled_product_analytics=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
@@ -323,6 +337,8 @@ cd Quarkus-Terraform/discount-analysis-ai
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE discount-analysis-ai IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_discount_analysis_ai=/c ip_discount_analysis_ai=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..

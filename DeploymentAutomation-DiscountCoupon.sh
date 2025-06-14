@@ -49,6 +49,8 @@ cd Quarkus-Terraform/discount-coupon
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE discount-coupon IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_discount_coupon=/c ip_discount_coupon=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..

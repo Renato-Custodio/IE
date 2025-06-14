@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ./access.sh
+source ./kongVars.sh
 
 # Terraform - Kong
 cd KongTerraform

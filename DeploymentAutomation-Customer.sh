@@ -2,7 +2,7 @@
 
 source ./access.sh
 
-# # #Terraform - RDS
+#Terraform - RDS
 cd RDS-Terraform
 terraform init
 terraform apply -auto-approve
@@ -11,7 +11,7 @@ addressDB="$(terraform state show aws_db_instance.example |grep address | sed "s
 cd ..
 
 
-# # #Terraform - Quarkus Micro services changing the configuration of the DB connection, recompiling and packaging
+#Terraform - Quarkus Micro services changing the configuration of the DB connection, recompiling and packaging
 cd microservices/customer/src/main/resources
 sed -i "/quarkus.datasource.reactive.url/d" application.properties
 sed -i "/quarkus.container-image.group/d" application.properties
@@ -25,6 +25,10 @@ echo "Starting the clean package"
 echo "Ending the clean package"
 cd ../..
 
+
+DockerUsername="$(echo "$DockerUsername" | tr -d '\n\r')"
+DockerImage="$(echo "$DockerImage" | tr -d '\n\r')"
+DockerImageVersion="$(echo "$DockerImageVersion" | tr -d '\n\r')"
 cd Quarkus-Terraform/customer
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
@@ -37,11 +41,13 @@ terraform taint aws_instance.exampleDeployQuarkus
 terraform apply -auto-approve
 cd ../..
 
-#echo Quarkus -
+#echo Quarkus - 
 cd Quarkus-Terraform/customer
 #terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
 echo "MICROSERVICE customer IS AVAILABLE HERE:"
 addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+#set ip for kong
+sed -i "/^ip_customer=/c ip_customer=\"$addressMS\"" ../../kongVars.sh
 echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
