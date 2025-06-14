@@ -82,7 +82,7 @@ public class TestLoyaltyCardService {
         final String payload = """
             {
             	"idCustomer": 5,
-                "idShops": [4, 7, 8]
+                "idShop": 4
             }
             """;
 
