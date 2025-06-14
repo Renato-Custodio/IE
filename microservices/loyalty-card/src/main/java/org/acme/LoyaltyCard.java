@@ -48,8 +48,8 @@ public class LoyaltyCard {
 
 	}
 
-	public static Uni<Boolean> save(MySQLPool client, Long idCustomer_R, List<Long> idShops_R) {
-		final String shopIdsStr = idShops_R.toString();
+	public static Uni<Boolean> save(MySQLPool client, Long idCustomer_R, Long idShop_R) {
+		final String shopIdsStr = List.of(idShop_R).toString();
 		return client.preparedQuery("INSERT INTO LoyaltyCards(id_customer,id_shops) VALUES (?,?)").execute(Tuple.of(idCustomer_R , shopIdsStr))
 				.onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1 );
 	}
@@ -59,10 +59,24 @@ public class LoyaltyCard {
 				.onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
 	}
 
-	public static Uni<Boolean> update(MySQLPool client, Long id_R, Long idCustomer_R , List<Long> idShops_R) {
-		final String shopIdsStr = idShops_R.toString();
-		return client.preparedQuery("UPDATE LoyaltyCards SET id_customer = ? , id_shops = ? WHERE id = ?").execute(Tuple.of(idCustomer_R, shopIdsStr, id_R))
-			.onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
+	public static Uni<Boolean> update(MySQLPool client, Long id_R, Long idShop_R) {
+		return findById(client, id_R)
+			.onItem().transformToUni(loyaltyCard -> {
+				if (loyaltyCard == null) {
+					return Uni.createFrom().item(false);
+				}
+				// Add the new shop ID to the list
+				final List<Long> shopIds = new ArrayList<>(loyaltyCard.getIdShops());
+				if (!shopIds.contains(idShop_R)) {
+					shopIds.add(idShop_R);
+				}
+				final String shopIdsStr = shopIds.toString();
+				// Perform the DB update
+				return client.preparedQuery(
+						"UPDATE LoyaltyCards SET id_shops = ? WHERE id = ?")
+					.execute(Tuple.of(shopIdsStr, id_R))
+					.onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
+			});
 	}
 
 	@Override
@@ -86,5 +100,9 @@ public class LoyaltyCard {
 			shopIdList.add(Long.parseLong(part));
 		}
 		return shopIdList;
+	}
+
+	private List<Long> getIdShops() {
+		return idShops;
 	}
 }
