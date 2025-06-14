@@ -26,11 +26,11 @@ public class TestCrossSellingRecommendationService {
     void resetDatabase() {
         client.query("DELETE FROM CrossSellingRecommendations").execute().await().indefinitely();
         client.query("""
-            INSERT INTO CrossSellingRecommendations (id, id_loyalty_card, id_shops) VALUES
-            (1, 1, '[1, 2, 3]'),
-            (2, 2, '[4, 5, 6]'),
-            (3, 2, '[1, 5, 6]'),
-            (4, 3, '[3, 4, 6]')
+            INSERT INTO CrossSellingRecommendations (id, id_loyalty_card, id_shops, recommendation) VALUES
+            (1, 1, '[1, 2, 3]', 'Cookies'),
+            (2, 2, '[4, 5, 6]', 'Cookies'),
+            (3, 2, '[1, 5, 6]', 'Cookies'),
+            (4, 3, '[3, 4, 6]', 'Cookies')
         """).execute().await().indefinitely();
     }
 
@@ -67,7 +67,8 @@ public class TestCrossSellingRecommendationService {
         final String payload = """
             {
             	"idLoyaltyCard": 5,
-                "idShops": [4, 7, 8]
+                "idShops": [4, 7, 8],
+                "recommendation": "Banana"
             }
             """;
 
