@@ -163,13 +163,13 @@ fi
 if [ -n "${ip_discount_analysis_ai}" ]; then
   # To create a Service to redirect to a microservice
   curl -i -X POST --url http://localhost:8001/services/ \
-    --data "name=discountAnalysisAI-service" \
-    --data "url=http://${ip_discount_analysis_ai}:8080/DiscountAnalysisAI"
+    --data "name=ollama-service" \
+    --data "url=http://${ip_discount_analysis_ai}:11434/api/generate"
 
   # To create a Route to that Service
-  curl -i -X POST http://localhost:8001/services/discountAnalysisAI-service/routes --data 'name=discountAnalysisAI-route' --data 'paths[]=/discountAnalysisAI'
+  curl -i -X POST http://localhost:8001/services/ollama-service/routes --data 'name=ollama-route' --data 'paths[]=/ollama'
 else
-  echo "Variable ip_discount_analysis_ai is empty"
+  echo "Variable ollama is empty"
 fi
 
 

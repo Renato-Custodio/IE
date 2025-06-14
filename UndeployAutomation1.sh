@@ -42,12 +42,6 @@ echo Destrying selled-product-analytics
 terraform destroy -auto-approve
 cd ../..
 
-# Terraform - ollama
-cd Quarkus-Terraform/ollama
-echo Destrying ollama
-terraform destroy -auto-approve
-cd ../..
-
 # Terraform - Kafka
 cd Kafka
 echo Destrying Kafka

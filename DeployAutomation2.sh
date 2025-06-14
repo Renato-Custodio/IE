@@ -8,6 +8,24 @@ terraform init
 terraform apply -auto-approve
 cd ..
 
+cd Quarkus-Terraform/ollama
+echo Launching ollama
+terraform init
+terraform taint aws_instance.exampleOllamaConfiguration
+terraform apply -auto-approve
+cd ../..
+
+# echo Quarkus -
+cd Quarkus-Terraform/ollama
+# terraform state show 'aws_instance.exampleDeployQuarkus' |grep public_dns
+echo "MICROSERVICE ollama IS AVAILABLE HERE:"
+addressMS="$(terraform state show aws_instance.exampleDeployQuarkus |grep public_dns | sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
+# set ip for kong
+sed -i "/^ip_discount_analysis_ai=/c ip_discount_analysis_ai=\"$addressMS\"" ../../kongVars.sh
+echo "http://"$addressMS":8080/q/swagger-ui/"
+echo
+cd ../..
+
 # Update config file
 # Terraform 1 - Kong
 cd KongTerraform
