@@ -71,7 +71,7 @@ public class LoyaltyCardResource {
         return LoyaltyCard.save(
             client,
             request.idCustomer(),
-            request.idShops())
+            request.idShop())
         .onItem().transform(id -> URI.create("/LoyaltyCard/" + id))
         .onItem().transform(uri -> Response.created(uri).build());
     }
@@ -90,8 +90,7 @@ public class LoyaltyCardResource {
         return LoyaltyCard.update(
             client,
             id,
-            request.idCustomer(),
-            request.idShops())
+            request.idShop())
         .onItem().transform(updated -> updated ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND)
         .onItem().transform(status -> Response.status(status).build());
     }
