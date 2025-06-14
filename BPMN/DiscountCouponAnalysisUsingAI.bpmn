@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ns2:definitions xmlns:ns2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:ns3="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns4="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns5="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
   <ns2:collaboration id="coll-DEMO2BPMN">
-    <ns2:participant id="Participant_0me82ug" name="BUSINESS ACTOR" processRef="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" />
+    <ns2:participant id="Participant_0me82ug" name="BUSINESS ACTOR" processRef="DiscountAnalysisUsingOllama" />
   </ns2:collaboration>
-  <ns2:process id="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" isExecutable="true" camunda:historyTimeToLive="180">
+  <ns2:process id="DiscountAnalysisUsingOllama" isExecutable="true" camunda:historyTimeToLive="180">
     <ns2:laneSet id="LaneSet_1arbikh">
       <ns2:lane id="Lane_0io2uqa" name="1-SelledProductAnalytics - Initiator TK01">
         <ns2:flowNodeRef>Event_1r757a7</ns2:flowNodeRef>
@@ -41,7 +41,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/customer</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/customer</camunda:inputParameter>
             <camunda:outputParameter name="CustomerList">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
             </camunda:outputParameter>
@@ -66,7 +66,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
             <camunda:outputParameter name="LoyaltyCardID">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").stringValue();</camunda:script>
             </camunda:outputParameter>
@@ -82,7 +82,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/discountCoupon/loyaltyCard/${LoyaltyCardID}</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/discountCoupon/loyaltyCard/${LoyaltyCardID}</camunda:inputParameter>
             <camunda:outputParameter name="DiscountCouponsAmount">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response").length);</camunda:script>
             </camunda:outputParameter>
@@ -98,7 +98,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/purchase/loyaltyCardId/${LoyaltyCardID}/usedCoupons</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/purchase/loyaltyCardId/${LoyaltyCardID}/usedCoupons</camunda:inputParameter>
             <camunda:outputParameter name="CouponsRedeemed">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response").length);</camunda:script>
             </camunda:outputParameter>
@@ -109,7 +109,7 @@
       <ns2:incoming>Flow_1g8p89a</ns2:incoming>
       <ns2:outgoing>Flow_1ki78vj</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:userTask id="Activity_1gpfmx3" name="Verify all data to be analysed">
+    <ns2:userTask id="Activity_1gpfmx3" name="Verify all data to be analysed" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="LooksGood" label="LooksGood" type="boolean" />
@@ -132,7 +132,7 @@ Determine whether this customer truly values the coupons based on redemption rat
     "stream": false
 }</camunda:inputParameter>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/selledProductAnalytics</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/ollama</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="accept">application/json</camunda:entry>
@@ -146,7 +146,7 @@ Determine whether this customer truly values the coupons based on redemption rat
       <ns2:incoming>Flow_14ansid</ns2:incoming>
       <ns2:outgoing>Flow_1ghtla6</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:userTask id="Activity_1sjbwug" name="Verify SelledProductAnalytics">
+    <ns2:userTask id="Activity_1sjbwug" name="Verify SelledProductAnalytics" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
           <camunda:formField id="Successful" label="Successful" type="boolean" />
@@ -173,12 +173,12 @@ Determine whether this customer truly values the coupons based on redemption rat
         <ns5:Bounds x="160" y="80" width="1380" height="340" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_1npo2xv" bpmnElement="Lane_0io2uqa" isHorizontal="true">
-        <ns5:Bounds x="190" y="80" width="1350" height="170" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
       <ns4:BPMNShape id="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f_di" bpmnElement="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f" isHorizontal="true">
         <ns5:Bounds x="190" y="250" width="1350" height="170" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_1npo2xv" bpmnElement="Lane_0io2uqa" isHorizontal="true">
+        <ns5:Bounds x="190" y="80" width="1350" height="170" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
       <ns4:BPMNShape id="BPMNShape_05oxwxz" bpmnElement="Event_1r757a7">
@@ -230,6 +230,14 @@ Determine whether this customer truly values the coupons based on redemption rat
         <ns5:Bounds x="1334" y="125" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
+      <ns4:BPMNEdge id="Flow_1dgh9xx_di" bpmnElement="Flow_1dgh9xx">
+        <ns3:waypoint x="1434" y="165" />
+        <ns3:waypoint x="1474" y="165" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_1ghtla6_di" bpmnElement="Flow_1ghtla6">
+        <ns3:waypoint x="1260" y="340" />
+        <ns3:waypoint x="1334" y="340" />
+      </ns4:BPMNEdge>
       <ns4:BPMNEdge id="Flow_0330jmp_di" bpmnElement="Flow_0330jmp">
         <ns3:waypoint x="1384" y="300" />
         <ns3:waypoint x="1384" y="205" />
@@ -237,6 +245,10 @@ Determine whether this customer truly values the coupons based on redemption rat
       <ns4:BPMNEdge id="Flow_054l5vv_di" bpmnElement="Flow_054l5vv">
         <ns3:waypoint x="268" y="165" />
         <ns3:waypoint x="300" y="165" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_1k7lzby_di" bpmnElement="Flow_1k7lzby">
+        <ns3:waypoint x="925" y="340" />
+        <ns3:waypoint x="985" y="340" />
       </ns4:BPMNEdge>
       <ns4:BPMNEdge id="Flow_14ansid_di" bpmnElement="Flow_14ansid">
         <ns3:waypoint x="1085" y="340" />
@@ -261,18 +273,6 @@ Determine whether this customer truly values the coupons based on redemption rat
       <ns4:BPMNEdge id="Flow_1ki78vj_di" bpmnElement="Flow_1ki78vj">
         <ns3:waypoint x="875" y="205" />
         <ns3:waypoint x="875" y="300" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1k7lzby_di" bpmnElement="Flow_1k7lzby">
-        <ns3:waypoint x="925" y="340" />
-        <ns3:waypoint x="985" y="340" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1ghtla6_di" bpmnElement="Flow_1ghtla6">
-        <ns3:waypoint x="1260" y="340" />
-        <ns3:waypoint x="1334" y="340" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1dgh9xx_di" bpmnElement="Flow_1dgh9xx">
-        <ns3:waypoint x="1434" y="165" />
-        <ns3:waypoint x="1474" y="165" />
       </ns4:BPMNEdge>
     </ns4:BPMNPlane>
   </ns4:BPMNDiagram>

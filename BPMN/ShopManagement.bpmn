@@ -52,7 +52,7 @@
       <ns2:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/shop</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/shop</camunda:inputParameter>
             <camunda:inputParameter name="payload">{
   "location":"${LocationAddress}",
   "name":"${NameShop}"

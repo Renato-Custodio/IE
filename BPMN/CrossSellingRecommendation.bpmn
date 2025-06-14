@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ns2:definitions xmlns:ns2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:ns3="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns4="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns5="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
   <ns2:collaboration id="coll-DEMO2BPMN">
-    <ns2:participant id="Participant_0me82ug" name="BUSINESS ACTOR" processRef="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" />
+    <ns2:participant id="Participant_0me82ug" name="BUSINESS ACTOR" processRef="CrossSellingRecommendation" />
   </ns2:collaboration>
-  <ns2:process id="Process_da4e0fa6-9b65-446f-ad9c-fded193ae75f" isExecutable="true" camunda:historyTimeToLive="180">
+  <ns2:process id="CrossSellingRecommendation" isExecutable="true" camunda:historyTimeToLive="180">
     <ns2:laneSet id="LaneSet_1arbikh">
       <ns2:lane id="Lane_0io2uqa" name="1-CrossSellingRecommendation - Initiator TK01">
         <ns2:flowNodeRef>Event_15y1thm</ns2:flowNodeRef>
@@ -23,111 +23,50 @@
         <ns2:flowNodeRef>Activity_0catazb</ns2:flowNodeRef>
       </ns2:lane>
     </ns2:laneSet>
-    <ns2:startEvent id="Event_15y1thm">
-      <ns2:outgoing>Flow_054l5vv</ns2:outgoing>
-    </ns2:startEvent>
-    <ns2:serviceTask id="Activity_0g0eaij" name="Retrieve Customer Catalog">
-      <ns2:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/customer</camunda:inputParameter>
-            <camunda:outputParameter name="CustomerList">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </ns2:extensionElements>
-      <ns2:incoming>Flow_054l5vv</ns2:incoming>
-      <ns2:outgoing>Flow_07gqdnb</ns2:outgoing>
-    </ns2:serviceTask>
-    <ns2:serviceTask id="Activity_0gyunat" name="Retrieve Shop Catalog">
-      <ns2:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://ec2-54-91-227-182.compute-1.amazonaws.com:8080/Shop</camunda:inputParameter>
-            <camunda:outputParameter name="ShopList">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </ns2:extensionElements>
-      <ns2:incoming>Flow_07gqdnb</ns2:incoming>
-      <ns2:outgoing>Flow_0ey4or6</ns2:outgoing>
-    </ns2:serviceTask>
-    <ns2:userTask id="Activity_04fs5z3" name="Decide the data to order a CrossSellingRecommendation" camunda:assignee="demo">
+    <ns2:sequenceFlow id="Flow_1smapk9" sourceRef="Activity_0922qf6" targetRef="Event_1r757a7" />
+    <ns2:sequenceFlow id="Flow_11pybsi" sourceRef="Activity_1gt014p" targetRef="Activity_0922qf6" />
+    <ns2:sequenceFlow id="Flow_1ahvhxr" sourceRef="Activity_10yl005" targetRef="Activity_1gt014p" />
+    <ns2:sequenceFlow id="Flow_14ansid" sourceRef="Activity_1n7rg3o" targetRef="Activity_10yl005" />
+    <ns2:sequenceFlow id="Flow_1jiuwp0" sourceRef="Activity_0catazb" targetRef="Activity_1n7rg3o" />
+    <ns2:sequenceFlow id="Flow_18j0787" sourceRef="Activity_09blbbd" targetRef="Activity_0catazb" />
+    <ns2:sequenceFlow id="Flow_17mhzad" sourceRef="Activity_021j68e" targetRef="Activity_09blbbd" />
+    <ns2:sequenceFlow id="Flow_1ju2jjh" sourceRef="Activity_18vavjv" targetRef="Activity_021j68e" />
+    <ns2:sequenceFlow id="Flow_1gn1fun" sourceRef="Activity_04fs5z3" targetRef="Activity_18vavjv" />
+    <ns2:sequenceFlow id="Flow_0ey4or6" sourceRef="Activity_0gyunat" targetRef="Activity_04fs5z3" />
+    <ns2:sequenceFlow id="Flow_07gqdnb" sourceRef="Activity_0g0eaij" targetRef="Activity_0gyunat" />
+    <ns2:sequenceFlow id="Flow_054l5vv" sourceRef="Event_15y1thm" targetRef="Activity_0g0eaij" />
+    <ns2:userTask id="Activity_0922qf6" name="Verify CrossSellingRecommendation" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
-          <camunda:formField id="CustomerID" label="CustomerID" type="string" />
-          <camunda:formField id="ShopIDs" label="ShopIDs" type="string" />
+          <camunda:formField id="wasRecommendedSuccessfully" label="wasRecommendedSuccessfully" type="boolean" />
         </camunda:formData>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_0ey4or6</ns2:incoming>
-      <ns2:outgoing>Flow_1gn1fun</ns2:outgoing>
+      <ns2:incoming>Flow_11pybsi</ns2:incoming>
+      <ns2:outgoing>Flow_1smapk9</ns2:outgoing>
     </ns2:userTask>
-    <ns2:serviceTask id="Activity_18vavjv" name="Retrieve Customer loyalty card">
-      <ns2:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
-            <camunda:outputParameter name="LoyaltyCardID">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").stringValue();</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </ns2:extensionElements>
-      <ns2:incoming>Flow_1gn1fun</ns2:incoming>
-      <ns2:outgoing>Flow_1ju2jjh</ns2:outgoing>
-    </ns2:serviceTask>
-    <ns2:serviceTask id="Activity_021j68e" name="Retrieve Customer Purchases">
-      <ns2:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/purchase/loyaltyCardId/${LoyaltyCardID}</camunda:inputParameter>
-            <camunda:outputParameter name="PurchasesList">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </ns2:extensionElements>
-      <ns2:incoming>Flow_1ju2jjh</ns2:incoming>
-      <ns2:outgoing>Flow_17mhzad</ns2:outgoing>
-    </ns2:serviceTask>
-    <ns2:userTask id="Activity_09blbbd" name="Decide the recommendation based on purchases">
+    <ns2:endEvent id="Event_1r757a7">
+      <ns2:incoming>Flow_1smapk9</ns2:incoming>
+    </ns2:endEvent>
+    <ns2:userTask id="Activity_0catazb" name="Verify if CrossSellingRecommendation is valid" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
-          <camunda:formField id="Recommendation" label="Recommendation" type="string" />
+          <camunda:formField id="isRecommendationValid" label="isRecommendationValid" type="boolean" />
         </camunda:formData>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_17mhzad</ns2:incoming>
-      <ns2:outgoing>Flow_18j0787</ns2:outgoing>
+      <ns2:incoming>Flow_18j0787</ns2:incoming>
+      <ns2:outgoing>Flow_1jiuwp0</ns2:outgoing>
     </ns2:userTask>
-    <ns2:task id="Activity_1n7rg3o" name="Promise CrossSellingRecommendation">
-      <ns2:incoming>Flow_1jiuwp0</ns2:incoming>
-      <ns2:outgoing>Flow_14ansid</ns2:outgoing>
-    </ns2:task>
-    <ns2:task id="Activity_1gt014p" name="Declare CrossSellingRecommendation">
-      <ns2:incoming>Flow_1ahvhxr</ns2:incoming>
-      <ns2:outgoing>Flow_11pybsi</ns2:outgoing>
-    </ns2:task>
     <ns2:serviceTask id="Activity_10yl005" name="Create CrossSellingRecommendation">
       <ns2:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="payload">{
     "idLoyaltyCard": "${LoyaltyCardID}",
-    "idShops": "${ShopsID}",
+    "idShops": ["${ShopID1}","${ShopID2}"],
     "recommendation": "${Recommendation}"
 }</camunda:inputParameter>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/crossSellingRecommendation</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/crossSellingRecommendation</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="accept">application/json</camunda:entry>
@@ -141,39 +80,101 @@
       <ns2:incoming>Flow_14ansid</ns2:incoming>
       <ns2:outgoing>Flow_1ahvhxr</ns2:outgoing>
     </ns2:serviceTask>
-    <ns2:userTask id="Activity_0catazb" name="Verify if CrossSellingRecommendation is valid">
+    <ns2:task id="Activity_1gt014p" name="Declare CrossSellingRecommendation">
+      <ns2:incoming>Flow_1ahvhxr</ns2:incoming>
+      <ns2:outgoing>Flow_11pybsi</ns2:outgoing>
+    </ns2:task>
+    <ns2:task id="Activity_1n7rg3o" name="Promise CrossSellingRecommendation">
+      <ns2:incoming>Flow_1jiuwp0</ns2:incoming>
+      <ns2:outgoing>Flow_14ansid</ns2:outgoing>
+    </ns2:task>
+    <ns2:userTask id="Activity_09blbbd" name="Decide the recommendation based on purchases" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
-          <camunda:formField id="recommendationValid" label="recommendationValid" type="boolean" />
+          <camunda:formField id="Recommendation" label="Recommendation" type="string" />
         </camunda:formData>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_18j0787</ns2:incoming>
-      <ns2:outgoing>Flow_1jiuwp0</ns2:outgoing>
+      <ns2:incoming>Flow_17mhzad</ns2:incoming>
+      <ns2:outgoing>Flow_18j0787</ns2:outgoing>
     </ns2:userTask>
-    <ns2:endEvent id="Event_1r757a7">
-      <ns2:incoming>Flow_1smapk9</ns2:incoming>
-    </ns2:endEvent>
-    <ns2:userTask id="Activity_0922qf6" name="Verify CrossSellingRecommendation">
+    <ns2:serviceTask id="Activity_021j68e" name="Retrieve Customer Purchases">
+      <ns2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/purchase/loyaltyCardId/${LoyaltyCardID}</camunda:inputParameter>
+            <camunda:outputParameter name="PurchasesList">
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </ns2:extensionElements>
+      <ns2:incoming>Flow_1ju2jjh</ns2:incoming>
+      <ns2:outgoing>Flow_17mhzad</ns2:outgoing>
+    </ns2:serviceTask>
+    <ns2:serviceTask id="Activity_18vavjv" name="Retrieve Customer loyalty card">
+      <ns2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
+            <camunda:outputParameter name="LoyaltyCardID">
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").stringValue();</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </ns2:extensionElements>
+      <ns2:incoming>Flow_1gn1fun</ns2:incoming>
+      <ns2:outgoing>Flow_1ju2jjh</ns2:outgoing>
+    </ns2:serviceTask>
+    <ns2:userTask id="Activity_04fs5z3" name="Decide the data to order a CrossSellingRecommendation" camunda:assignee="demo">
       <ns2:extensionElements>
         <camunda:formData>
-          <camunda:formField id="wasRecommendedSuccessfully" label="wasRecommendedSuccessfully" type="boolean" />
+          <camunda:formField id="CustomerID" label="CustomerID" type="string" />
+          <camunda:formField id="ShopID1" label="ShopID1" type="string" />
+          <camunda:formField id="ShopID2" label="ShopID2" type="string" />
         </camunda:formData>
       </ns2:extensionElements>
-      <ns2:incoming>Flow_11pybsi</ns2:incoming>
-      <ns2:outgoing>Flow_1smapk9</ns2:outgoing>
+      <ns2:incoming>Flow_0ey4or6</ns2:incoming>
+      <ns2:outgoing>Flow_1gn1fun</ns2:outgoing>
     </ns2:userTask>
-    <ns2:sequenceFlow id="Flow_054l5vv" sourceRef="Event_15y1thm" targetRef="Activity_0g0eaij" />
-    <ns2:sequenceFlow id="Flow_07gqdnb" sourceRef="Activity_0g0eaij" targetRef="Activity_0gyunat" />
-    <ns2:sequenceFlow id="Flow_0ey4or6" sourceRef="Activity_0gyunat" targetRef="Activity_04fs5z3" />
-    <ns2:sequenceFlow id="Flow_1gn1fun" sourceRef="Activity_04fs5z3" targetRef="Activity_18vavjv" />
-    <ns2:sequenceFlow id="Flow_1ju2jjh" sourceRef="Activity_18vavjv" targetRef="Activity_021j68e" />
-    <ns2:sequenceFlow id="Flow_17mhzad" sourceRef="Activity_021j68e" targetRef="Activity_09blbbd" />
-    <ns2:sequenceFlow id="Flow_18j0787" sourceRef="Activity_09blbbd" targetRef="Activity_0catazb" />
-    <ns2:sequenceFlow id="Flow_1jiuwp0" sourceRef="Activity_0catazb" targetRef="Activity_1n7rg3o" />
-    <ns2:sequenceFlow id="Flow_14ansid" sourceRef="Activity_1n7rg3o" targetRef="Activity_10yl005" />
-    <ns2:sequenceFlow id="Flow_1ahvhxr" sourceRef="Activity_10yl005" targetRef="Activity_1gt014p" />
-    <ns2:sequenceFlow id="Flow_11pybsi" sourceRef="Activity_1gt014p" targetRef="Activity_0922qf6" />
-    <ns2:sequenceFlow id="Flow_1smapk9" sourceRef="Activity_0922qf6" targetRef="Event_1r757a7" />
+    <ns2:serviceTask id="Activity_0gyunat" name="Retrieve Shop Catalog">
+      <ns2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/shop</camunda:inputParameter>
+            <camunda:outputParameter name="ShopList">
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </ns2:extensionElements>
+      <ns2:incoming>Flow_07gqdnb</ns2:incoming>
+      <ns2:outgoing>Flow_0ey4or6</ns2:outgoing>
+    </ns2:serviceTask>
+    <ns2:serviceTask id="Activity_0g0eaij" name="Retrieve Customer Catalog">
+      <ns2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/customer</camunda:inputParameter>
+            <camunda:outputParameter name="CustomerList">
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </ns2:extensionElements>
+      <ns2:incoming>Flow_054l5vv</ns2:incoming>
+      <ns2:outgoing>Flow_07gqdnb</ns2:outgoing>
+    </ns2:serviceTask>
+    <ns2:startEvent id="Event_15y1thm">
+      <ns2:outgoing>Flow_054l5vv</ns2:outgoing>
+    </ns2:startEvent>
   </ns2:process>
   <ns4:BPMNDiagram id="diagram-DEMO2BPMN">
     <ns4:BPMNPlane xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="plane-DEMO2BPMN" bpmnElement="coll-DEMO2BPMN">
@@ -181,12 +182,12 @@
         <ns5:Bounds x="172" y="125" width="1608" height="340" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_1npo2xv" bpmnElement="Lane_0io2uqa" isHorizontal="true">
-        <ns5:Bounds x="202" y="125" width="1578" height="170" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
       <ns4:BPMNShape id="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f_di" bpmnElement="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f" isHorizontal="true">
         <ns5:Bounds x="202" y="295" width="1578" height="170" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_1npo2xv" bpmnElement="Lane_0io2uqa" isHorizontal="true">
+        <ns5:Bounds x="202" y="125" width="1578" height="170" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
       <ns4:BPMNShape id="BPMNShape_0x1cazr" bpmnElement="Event_15y1thm">

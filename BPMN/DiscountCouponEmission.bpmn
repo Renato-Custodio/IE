@@ -27,7 +27,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/customer</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/customer</camunda:inputParameter>
             <camunda:outputParameter name="CustomerList">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
             </camunda:outputParameter>
@@ -52,7 +52,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
             <camunda:outputParameter name="LoyaltyCardID">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").numberValue();</camunda:script>
             </camunda:outputParameter>
@@ -68,7 +68,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/purchase/loyaltyCardId/${LoyaltyCardID}</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/purchase/loyaltyCardId/${LoyaltyCardID}</camunda:inputParameter>
             <camunda:outputParameter name="PurchasesList">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response"));</camunda:script>
             </camunda:outputParameter>
@@ -120,7 +120,7 @@
     "expiryDate": "${ExpiryDate}" 
 }</camunda:inputParameter>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;KONG_URL&gt;:8000/discountCoupon</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/discountCoupon</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="accept">application/json</camunda:entry>
