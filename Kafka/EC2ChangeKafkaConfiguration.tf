@@ -21,7 +21,7 @@ provider "aws" {
 variable "nBroker" {
   description = "number of brokers"
   type        = number
-  default     = 3
+  default     = 2
 }
 
 

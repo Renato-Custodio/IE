@@ -84,6 +84,11 @@ done
 
 if echo stat | nc localhost 2181 | grep "leader"; then
   echo "Creating topics..."
-  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor 3 --partitions 3 --topic DiscountCoupon
-  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor 3 --partitions 4 --topic CrossSellingRecommendation
+  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 3 --topic DiscountCoupon
+  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 4 --topic CrossSellingRecommendation
+  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 6 --topic SelledProduct-Coupon
+  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 6 --topic SelledProduct-Customer
+  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 6 --topic SelledProduct-Location
+  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 6 --topic SelledProduct-LoyaltyCard
+  sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 6 --topic SelledProduct-Shop
 fi
