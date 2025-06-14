@@ -164,7 +164,10 @@ if [ -n "${ip_discount_analysis_ai}" ]; then
   # To create a Service to redirect to a microservice
   curl -i -X POST --url http://localhost:8001/services/ \
     --data "name=ollama-service" \
-    --data "url=http://${ip_discount_analysis_ai}:11434/api/generate"
+    --data "url=http://${ip_discount_analysis_ai}:11434/api/generate" \
+    --data "connect_timeout=180000" \
+    --data "read_timeout=180000" \
+    --data "write_timeout=180000"
 
   # To create a Route to that Service
   curl -i -X POST http://localhost:8001/services/ollama-service/routes --data 'name=ollama-route' --data 'paths[]=/ollama'
