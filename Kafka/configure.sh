@@ -62,6 +62,7 @@ sudo /usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/
 
 echo "Waiting for ${broker_count} brokers"
 
+# Wait for all brokers to be up
 while true; do
   ids=$(sudo /usr/local/kafka/bin/zookeeper-shell.sh $(hostname):2181 ls /brokers/ids 2>/dev/null | grep '\[')
 
@@ -82,6 +83,7 @@ while true; do
   fi
 done
 
+# Create Topics
 if echo stat | nc localhost 2181 | grep "leader"; then
   echo "Creating topics..."
   sudo /usr/local/kafka/bin/kafka-topics.sh --create --bootstrap-server $(hostname):9092 --replication-factor "${broker_count}" --partitions 3 --topic DiscountCoupon

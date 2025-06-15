@@ -3,7 +3,9 @@
 source ./access.sh
 
 # Terraform - RDS
+echo
 echo Launching RDS
+echo
 cd RDS-Terraform
 terraform init
 terraform apply -auto-approve
@@ -12,7 +14,9 @@ addressDB="$(terraform state show aws_db_instance.example |grep address | sed "s
 cd ..
 
 # Terraform - Kafka
+echo
 echo Launching Kafka
+echo
 cd Kafka
 terraform init
 terraform apply -auto-approve
@@ -35,7 +39,9 @@ DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/
 cd ../..
 
 cd Quarkus-Terraform/purchase
+echo
 echo Launching purchase
+echo
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
 sed -i "/sudo docker run/d" quarkus.sh
@@ -60,7 +66,9 @@ DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/
 cd ../..
 
 cd Quarkus-Terraform/loyalty-card
+echo
 echo Launching loyalty-card
+echo
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
 sed -i "/sudo docker run/d" quarkus.sh
@@ -85,7 +93,9 @@ DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/
 cd ../..
 
 cd Quarkus-Terraform/customer
+echo
 echo Launching customer
+echo
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
 sed -i "/sudo docker run/d" quarkus.sh
@@ -110,7 +120,9 @@ DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/
 cd ../..
 
 cd Quarkus-Terraform/shop
+echo
 echo Launching shop
+echo
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
 sed -i "/sudo docker run/d" quarkus.sh
@@ -137,7 +149,9 @@ DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/
 cd ../..
 
 cd Quarkus-Terraform/cross-selling-recommendation
+echo
 echo Launching cross-selling-recommendation
+echo
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
 sed -i "/sudo docker run/d" quarkus.sh
@@ -164,7 +178,9 @@ DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/
 cd ../..
 
 cd Quarkus-Terraform/discount-coupon
+echo
 echo Launching discount-coupon
+echo
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
 sed -i "/sudo docker run/d" quarkus.sh
@@ -191,7 +207,9 @@ DockerImageVersion="$(grep -m 1 "<version>" pom.xml|sed "s/<version>//g"|sed "s/
 cd ../..
 
 cd Quarkus-Terraform/selled-product-analytics
+echo
 echo Launching selled-product-analytics
+echo
 sed -i "/sudo docker login/d" quarkus.sh
 sed -i "/sudo docker pull/d" quarkus.sh
 sed -i "/sudo docker run/d" quarkus.sh

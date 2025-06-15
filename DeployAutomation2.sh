@@ -4,12 +4,17 @@ source ./access.sh
 
 # Terraform - Camunda
 cd Camunda-Terraform
+echo
+echo Launching Camunda
+echo
 terraform init
 terraform apply -auto-approve
 cd ..
 
 cd Quarkus-Terraform/ollama
+echo
 echo Launching ollama
+echo
 terraform init
 terraform taint aws_instance.exampleOllamaConfiguration
 terraform apply -auto-approve
@@ -26,18 +31,20 @@ echo "http://"$addressMS":8080/q/swagger-ui/"
 echo
 cd ../..
 
-# Update config file
+# Update Kong config file
 source ./kongVars.sh
-# Terraform 1 - Kong
+# Terraform - Kong
 cd KongTerraform
+echo
+echo Launching Kong
+echo
 terraform init
 terraform apply -auto-approve
 cd ..
 
-# Showing all the PUBLIC_DNSs
-echo CAMUNDA - 
+# Showing all the PUBLIC_DNSs 
 cd Camunda-Terraform
-terraform state show aws_instance.exampleInstallCamundaEngine |grep public_dns
+# terraform state show aws_instance.exampleInstallCamundaEngine |grep public_dns
 echo "CAMUNDA IS AVAILABLE HERE:"
 addressCamunda="$(terraform state show aws_instance.exampleInstallCamundaEngine |grep public_dns| sed "s/public_dns//g" | sed "s/=//g" | sed "s/\"//g" |sed "s/ //g" | sed "s/$esc\[[0-9;]*m//g" )"
 echo "http://"$addressCamunda":8080/camunda"

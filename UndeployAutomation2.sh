@@ -5,16 +5,25 @@ source ./kongVars.sh
 
 # Terraform - ollama
 cd Quarkus-Terraform/ollama
+echo
+echo Destrying ollama
+echo
 terraform destroy -auto-approve
 cd ../..
 
 # Terraform - Camunda
 cd Camunda-Terraform
+echo
+echo Destrying Camunda
+echo
 terraform destroy -auto-approve
 cd ..
 
 # Terraform - Kong
 cd KongTerraform
+echo
+echo Destrying Kong
+echo
 terraform destroy -auto-approve
 cd ..
 
