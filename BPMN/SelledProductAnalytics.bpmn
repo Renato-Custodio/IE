@@ -11,9 +11,9 @@
         <ns2:flowNodeRef>Activity_1417kz1</ns2:flowNodeRef>
         <ns2:flowNodeRef>Activity_191qbwz</ns2:flowNodeRef>
         <ns2:flowNodeRef>Activity_1jlypuq</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_19aj4vh</ns2:flowNodeRef>
-        <ns2:flowNodeRef>Activity_1nqltzn</ns2:flowNodeRef>
         <ns2:flowNodeRef>Activity_15m1mo6</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_1nqltzn</ns2:flowNodeRef>
+        <ns2:flowNodeRef>Activity_19aj4vh</ns2:flowNodeRef>
       </ns2:lane>
       <ns2:lane id="Lane_17f55289-a4e5-4184-ad39-e7783e98f31f" name="1-SelledProductAnalytics - Executor TK01">
         <ns2:flowNodeRef>Activity_1gt014p</ns2:flowNodeRef>
@@ -64,13 +64,13 @@
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
             <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/purchase/${PurchaseID}</camunda:inputParameter>
             <camunda:outputParameter name="LoyaltyCardID">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("loyaltyCardId").stringValue();</camunda:script>
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("loyaltyCardId").numberValue();</camunda:script>
             </camunda:outputParameter>
             <camunda:outputParameter name="ShopName">
               <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("shopName").stringValue();</camunda:script>
             </camunda:outputParameter>
             <camunda:outputParameter name="DiscountCouponID">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("discountCouponId").stringValue();</camunda:script>
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("discountCouponId").numberValue();</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
@@ -78,38 +78,6 @@
       </ns2:extensionElements>
       <ns2:incoming>Flow_0bycevh</ns2:incoming>
       <ns2:outgoing>Flow_0wlczhj</ns2:outgoing>
-    </ns2:serviceTask>
-    <ns2:serviceTask id="Activity_19aj4vh" name="Retrieve CustomerID through LoyaltyCard">
-      <ns2:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/loyaltyCard/${LoyaltyCardID}</camunda:inputParameter>
-            <camunda:outputParameter name="CustomerID">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("idCustomer").stringValue();</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </ns2:extensionElements>
-      <ns2:incoming>Flow_0wlczhj</ns2:incoming>
-      <ns2:outgoing>Flow_1lcsctr</ns2:outgoing>
-    </ns2:serviceTask>
-    <ns2:serviceTask id="Activity_1nqltzn" name="Retrieve ShopLocation by ShopName">
-      <ns2:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/shop/name/${ShopName}</camunda:inputParameter>
-            <camunda:outputParameter name="ShopLocation">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("location").stringValue();</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </ns2:extensionElements>
-      <ns2:incoming>Flow_1lcsctr</ns2:incoming>
-      <ns2:outgoing>Flow_0gufzsm</ns2:outgoing>
     </ns2:serviceTask>
     <ns2:userTask id="Activity_0catazb" name="Verify all data to be analysed" camunda:assignee="demo">
       <ns2:extensionElements>
@@ -144,6 +112,9 @@
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
+            <camunda:outputParameter name="PostStatusCode">
+              <camunda:script scriptFormat="JavaScript">connector.getVariable("statusCode").toString();</camunda:script>
+            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -167,10 +138,42 @@
     <ns2:sequenceFlow id="Flow_0jidpfw" sourceRef="Activity_1417kz1" targetRef="Activity_191qbwz" />
     <ns2:sequenceFlow id="Flow_0bycevh" sourceRef="Activity_191qbwz" targetRef="Activity_1jlypuq" />
     <ns2:sequenceFlow id="Flow_0wlczhj" sourceRef="Activity_1jlypuq" targetRef="Activity_19aj4vh" />
-    <ns2:sequenceFlow id="Flow_1lcsctr" sourceRef="Activity_19aj4vh" targetRef="Activity_1nqltzn" />
-    <ns2:sequenceFlow id="Flow_0gufzsm" sourceRef="Activity_1nqltzn" targetRef="Activity_0catazb" />
     <ns2:sequenceFlow id="Flow_0nqn33p" sourceRef="Activity_0catazb" targetRef="Activity_1n7rg3o" />
     <ns2:sequenceFlow id="Flow_14ansid" sourceRef="Activity_1n7rg3o" targetRef="Activity_02fd1u2" />
+    <ns2:serviceTask id="Activity_1nqltzn" name="Retrieve ShopLocation by ShopName">
+      <ns2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/shop/name/${ShopName}</camunda:inputParameter>
+            <camunda:outputParameter name="ShopLocation">
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("location").stringValue();</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </ns2:extensionElements>
+      <ns2:incoming>Flow_1lcsctr</ns2:incoming>
+      <ns2:outgoing>Flow_0gufzsm</ns2:outgoing>
+    </ns2:serviceTask>
+    <ns2:sequenceFlow id="Flow_0gufzsm" sourceRef="Activity_1nqltzn" targetRef="Activity_0catazb" />
+    <ns2:serviceTask id="Activity_19aj4vh" name="Retrieve CustomerID through LoyaltyCard">
+      <ns2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/loyaltyCard/${LoyaltyCardID}</camunda:inputParameter>
+            <camunda:outputParameter name="CustomerID">
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("idCustomer").numberValue();</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </ns2:extensionElements>
+      <ns2:incoming>Flow_0wlczhj</ns2:incoming>
+      <ns2:outgoing>Flow_1lcsctr</ns2:outgoing>
+    </ns2:serviceTask>
+    <ns2:sequenceFlow id="Flow_1lcsctr" sourceRef="Activity_19aj4vh" targetRef="Activity_1nqltzn" />
   </ns2:process>
   <ns4:BPMNDiagram id="diagram-DEMO2BPMN">
     <ns4:BPMNPlane xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="plane-DEMO2BPMN" bpmnElement="coll-DEMO2BPMN">

@@ -273,7 +273,7 @@
                 <camunda:entry key="accept">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
-            <camunda:outputParameter name="PostStatusCode">
+            <camunda:outputParameter name="PutStatusCode">
               <camunda:script scriptFormat="JavaScript">connector.getVariable("statusCode").toString();</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>

@@ -68,7 +68,7 @@
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
             <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
             <camunda:outputParameter name="LoyaltyCardID">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").stringValue();</camunda:script>
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").numberValue();</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
@@ -84,7 +84,7 @@
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
             <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/discountCoupon/loyaltyCard/${LoyaltyCardID}</camunda:inputParameter>
             <camunda:outputParameter name="DiscountCouponsAmount">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response").length);</camunda:script>
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).elements().size();</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
@@ -100,7 +100,7 @@
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
             <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/purchase/loyaltyCardId/${LoyaltyCardID}/usedCoupons</camunda:inputParameter>
             <camunda:outputParameter name="CouponsRedeemed">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response").length);</camunda:script>
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).elements().size();</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
@@ -124,11 +124,7 @@
           <camunda:inputOutput>
             <camunda:inputParameter name="payload">{
     "model": "llama3.2",
-    "prompt": "You are a business-intelligence AI specialized in customer behavior analysis. You help companies assess the effectiveness and perceived value of their promotional coupons by examining quantitative purchase data.
-I have the following data for one customer:
-- Total coupons issued: ${DiscountCouponsAmount}
-- Coupons redeemed (purchases made with coupons): ${CouponsRedeemed}
-Determine whether this customer truly values the coupons based on redemption rate",
+    "prompt": "You are a business-intelligence AI specialized in customer behavior analysis. You help companies assess the effectiveness and perceived value of their promotional coupons by examining quantitative purchase data. I have the following data for one customer: Total coupons issued: ${DiscountCouponsAmount} Coupons redeemed (purchases made with coupons): ${CouponsRedeemed} Determine whether this customer truly values the coupons based on redemption rate",
     "stream": false
 }</camunda:inputParameter>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
@@ -139,6 +135,9 @@ Determine whether this customer truly values the coupons based on redemption rat
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
+            <camunda:outputParameter name="PostResponse">
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("response").stringValue();</camunda:script>
+            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>

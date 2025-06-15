@@ -73,6 +73,9 @@
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
+            <camunda:outputParameter name="PostStatusCode">
+              <camunda:script scriptFormat="JavaScript">connector.getVariable("statusCode").toString();</camunda:script>
+            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -120,7 +123,7 @@
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
             <camunda:inputParameter name="url">http://&lt;Kong&gt;:8000/loyaltyCard/customerId/${CustomerID}</camunda:inputParameter>
             <camunda:outputParameter name="LoyaltyCardID">
-              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").stringValue();</camunda:script>
+              <camunda:script scriptFormat="JavaScript">S(connector.getVariable("response")).jsonPath("id").numberValue();</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
@@ -190,47 +193,8 @@
         <ns5:Bounds x="202" y="125" width="1578" height="170" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0x1cazr" bpmnElement="Event_15y1thm">
-        <ns5:Bounds x="252" y="192" width="36" height="36" />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_04n2k57" bpmnElement="Activity_0g0eaij" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="320" y="170" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0mljf52" bpmnElement="Activity_0gyunat" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="450" y="170" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0lkx0os" bpmnElement="Activity_04fs5z3">
-        <ns5:Bounds x="590" y="170" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_1ob92w5" bpmnElement="Activity_18vavjv" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="740" y="170" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0tnif2d" bpmnElement="Activity_021j68e" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="890" y="170" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_0gmv6ws" bpmnElement="Activity_09blbbd">
-        <ns5:Bounds x="1040" y="170" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="Activity_1n7rg3o_di" bpmnElement="Activity_1n7rg3o">
-        <ns5:Bounds x="1200" y="345" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="Activity_1gt014p_di" bpmnElement="Activity_1gt014p">
-        <ns5:Bounds x="1524" y="345" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_1mgypbb" bpmnElement="Activity_10yl005" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <ns5:Bounds x="1370" y="345" width="100" height="80" />
-        <ns4:BPMNLabel />
-      </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_1m4avkd" bpmnElement="Activity_0catazb">
-        <ns5:Bounds x="1040" y="345" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_139m6t5" bpmnElement="Activity_0922qf6">
+        <ns5:Bounds x="1530" y="170" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
       <ns4:BPMNShape id="BPMNShape_05oxwxz" bpmnElement="Event_1r757a7">
@@ -239,57 +203,96 @@
           <ns5:Bounds x="1027" y="153" width="24" height="14" />
         </ns4:BPMNLabel>
       </ns4:BPMNShape>
-      <ns4:BPMNShape id="BPMNShape_139m6t5" bpmnElement="Activity_0922qf6">
-        <ns5:Bounds x="1530" y="170" width="100" height="80" />
+      <ns4:BPMNShape id="BPMNShape_1m4avkd" bpmnElement="Activity_0catazb">
+        <ns5:Bounds x="1040" y="345" width="100" height="80" />
         <ns4:BPMNLabel />
       </ns4:BPMNShape>
-      <ns4:BPMNEdge id="Flow_054l5vv_di" bpmnElement="Flow_054l5vv">
-        <ns3:waypoint x="288" y="210" />
-        <ns3:waypoint x="320" y="210" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_07gqdnb_di" bpmnElement="Flow_07gqdnb">
-        <ns3:waypoint x="420" y="210" />
-        <ns3:waypoint x="450" y="210" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_0ey4or6_di" bpmnElement="Flow_0ey4or6">
-        <ns3:waypoint x="550" y="210" />
-        <ns3:waypoint x="590" y="210" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1gn1fun_di" bpmnElement="Flow_1gn1fun">
-        <ns3:waypoint x="690" y="210" />
-        <ns3:waypoint x="740" y="210" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1ju2jjh_di" bpmnElement="Flow_1ju2jjh">
-        <ns3:waypoint x="840" y="210" />
-        <ns3:waypoint x="890" y="210" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_17mhzad_di" bpmnElement="Flow_17mhzad">
-        <ns3:waypoint x="990" y="210" />
-        <ns3:waypoint x="1040" y="210" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_18j0787_di" bpmnElement="Flow_18j0787">
-        <ns3:waypoint x="1090" y="250" />
-        <ns3:waypoint x="1090" y="345" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1jiuwp0_di" bpmnElement="Flow_1jiuwp0">
-        <ns3:waypoint x="1140" y="385" />
-        <ns3:waypoint x="1200" y="385" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_14ansid_di" bpmnElement="Flow_14ansid">
-        <ns3:waypoint x="1300" y="385" />
-        <ns3:waypoint x="1370" y="385" />
-      </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1ahvhxr_di" bpmnElement="Flow_1ahvhxr">
-        <ns3:waypoint x="1470" y="385" />
-        <ns3:waypoint x="1524" y="385" />
+      <ns4:BPMNShape id="BPMNShape_1mgypbb" bpmnElement="Activity_10yl005" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="1370" y="345" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="Activity_1gt014p_di" bpmnElement="Activity_1gt014p">
+        <ns5:Bounds x="1524" y="345" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="Activity_1n7rg3o_di" bpmnElement="Activity_1n7rg3o">
+        <ns5:Bounds x="1200" y="345" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_0gmv6ws" bpmnElement="Activity_09blbbd">
+        <ns5:Bounds x="1040" y="170" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_0tnif2d" bpmnElement="Activity_021j68e" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="890" y="170" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_1ob92w5" bpmnElement="Activity_18vavjv" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="740" y="170" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_0lkx0os" bpmnElement="Activity_04fs5z3">
+        <ns5:Bounds x="590" y="170" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_0mljf52" bpmnElement="Activity_0gyunat" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="450" y="170" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_04n2k57" bpmnElement="Activity_0g0eaij" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <ns5:Bounds x="320" y="170" width="100" height="80" />
+        <ns4:BPMNLabel />
+      </ns4:BPMNShape>
+      <ns4:BPMNShape id="BPMNShape_0x1cazr" bpmnElement="Event_15y1thm">
+        <ns5:Bounds x="252" y="192" width="36" height="36" />
+      </ns4:BPMNShape>
+      <ns4:BPMNEdge id="Flow_1smapk9_di" bpmnElement="Flow_1smapk9">
+        <ns3:waypoint x="1630" y="210" />
+        <ns3:waypoint x="1692" y="210" />
       </ns4:BPMNEdge>
       <ns4:BPMNEdge id="Flow_11pybsi_di" bpmnElement="Flow_11pybsi">
         <ns3:waypoint x="1574" y="345" />
         <ns3:waypoint x="1574" y="250" />
       </ns4:BPMNEdge>
-      <ns4:BPMNEdge id="Flow_1smapk9_di" bpmnElement="Flow_1smapk9">
-        <ns3:waypoint x="1630" y="210" />
-        <ns3:waypoint x="1692" y="210" />
+      <ns4:BPMNEdge id="Flow_1ahvhxr_di" bpmnElement="Flow_1ahvhxr">
+        <ns3:waypoint x="1470" y="385" />
+        <ns3:waypoint x="1524" y="385" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_14ansid_di" bpmnElement="Flow_14ansid">
+        <ns3:waypoint x="1300" y="385" />
+        <ns3:waypoint x="1370" y="385" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_1jiuwp0_di" bpmnElement="Flow_1jiuwp0">
+        <ns3:waypoint x="1140" y="385" />
+        <ns3:waypoint x="1200" y="385" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_18j0787_di" bpmnElement="Flow_18j0787">
+        <ns3:waypoint x="1090" y="250" />
+        <ns3:waypoint x="1090" y="345" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_17mhzad_di" bpmnElement="Flow_17mhzad">
+        <ns3:waypoint x="990" y="210" />
+        <ns3:waypoint x="1040" y="210" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_1ju2jjh_di" bpmnElement="Flow_1ju2jjh">
+        <ns3:waypoint x="840" y="210" />
+        <ns3:waypoint x="890" y="210" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_1gn1fun_di" bpmnElement="Flow_1gn1fun">
+        <ns3:waypoint x="690" y="210" />
+        <ns3:waypoint x="740" y="210" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_0ey4or6_di" bpmnElement="Flow_0ey4or6">
+        <ns3:waypoint x="550" y="210" />
+        <ns3:waypoint x="590" y="210" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_07gqdnb_di" bpmnElement="Flow_07gqdnb">
+        <ns3:waypoint x="420" y="210" />
+        <ns3:waypoint x="450" y="210" />
+      </ns4:BPMNEdge>
+      <ns4:BPMNEdge id="Flow_054l5vv_di" bpmnElement="Flow_054l5vv">
+        <ns3:waypoint x="288" y="210" />
+        <ns3:waypoint x="320" y="210" />
       </ns4:BPMNEdge>
     </ns4:BPMNPlane>
   </ns4:BPMNDiagram>

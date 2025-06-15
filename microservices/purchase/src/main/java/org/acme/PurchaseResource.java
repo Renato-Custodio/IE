@@ -38,10 +38,10 @@ public class PurchaseResource {
         // In a production environment this configuration SHOULD NOT be used
         client.query("DROP TABLE IF EXISTS Purchases").execute()
         .flatMap(r -> client.query("CREATE TABLE Purchases (id SERIAL PRIMARY KEY,date_time DATETIME, price FLOAT, product TEXT NOT NULL, supplier TEXT NOT NULL, shop_name TEXT NOT NULL, loyalty_card_id BIGINT UNSIGNED, discount_coupon_id BIGINT UNSIGNED)").execute())
-        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','one product','supplier','arco cego',1,NULL)").execute())
-        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','one product','supplier','arco cego',1,2)").execute())
-        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','one product','supplier','arco cego',1,NULL)").execute())
-        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','one product','supplier','arco cego',1,3)").execute())
+        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','Boots','supplier','ArcoCego',1,NULL)").execute())
+        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','Leather','supplier','Lisboa',1,2)").execute())
+        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','Bat','supplier','Sintra',1,NULL)").execute())
+        .flatMap(r -> client.query("INSERT INTO Purchases (date_time,price,product,supplier,shop_name,loyalty_card_id,discount_coupon_id) VALUES ('2038-01-19 03:14:07','12.34','Ball','supplier','RioDeMouro',1,3)").execute())
             .await().indefinitely();
     }
 

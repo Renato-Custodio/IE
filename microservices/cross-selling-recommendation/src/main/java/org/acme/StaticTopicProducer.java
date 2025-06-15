@@ -50,7 +50,7 @@ public class StaticTopicProducer extends Thread  {
             final Message message = createMessage(
                 crossSellingRecommendation.idLoyaltyCard(),
                 crossSellingRecommendation.idShops());
-            //this.sendMessage(message, producer);
+            this.sendMessage(message, producer);
         }
         catch (Exception e) {
             LOGGER.warn("Exception caught in producer: {}", e.getMessage());

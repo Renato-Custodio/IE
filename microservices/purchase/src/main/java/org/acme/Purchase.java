@@ -58,7 +58,7 @@ public class Purchase
         .execute(Tuple.of(loyaltyCardId))
         .onItem().transformToMulti(set -> Multi.createFrom().iterable(set))
         .onItem().transform(Purchase::from);
-}
+    }
 
     @Override
     public String toString() {
