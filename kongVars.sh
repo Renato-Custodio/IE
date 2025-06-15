@@ -1,4 +1,5 @@
 #!/bin/bash
+
 ip_customer=""
 ip_purchase=""
 ip_shop=""
